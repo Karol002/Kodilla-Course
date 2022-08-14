@@ -41,8 +41,9 @@ public class ShapeCollectorTestSuite {
         @Test
         void testRemoveFigure() {
             //Given
-            ShapeCollector collector = new ShapeCollector();
             Triangle triangle = new Triangle(1, 2);
+            ShapeCollector collector = new ShapeCollector();
+            collector.addFigure(triangle);
 
             //When
             boolean result = collector.removeFigure(triangle);
@@ -83,7 +84,7 @@ public class ShapeCollectorTestSuite {
             collector.addFigure(circle);
 
             //When
-            String names = square.getShapeName() + ", " + triangle.getShapeName() + ", " + circle.getShapeName();
+            String names = square.getShapeName() + " " + triangle.getShapeName() + " " + circle.getShapeName() + " ";
 
             //Then
             Assertions.assertEquals(names, collector.showFigures());

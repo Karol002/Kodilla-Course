@@ -19,6 +19,26 @@ public class Triangle implements Shape{
         return "Triangle";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Triangle triangle)) return false;
+
+        if (Double.compare(triangle.getSideLength(), getSideLength()) != 0) return false;
+        return Double.compare(triangle.getHeight(), getHeight()) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        temp = Double.doubleToLongBits(getSideLength());
+        result = (int) (temp ^ (temp >>> 32));
+        temp = Double.doubleToLongBits(getHeight());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
     public double getSideLength() {
         return sideLength;
     }

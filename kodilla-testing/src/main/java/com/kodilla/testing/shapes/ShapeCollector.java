@@ -6,20 +6,33 @@ import java.util.List;
 public class ShapeCollector {
     List<Shape> shapes = new ArrayList<>();
 
-    public boolean addFigure(Shape shape) {
-        return false;
+    public void addFigure(Shape shape) {
+        shapes.add(shape);
     }
 
     public boolean removeFigure(Shape shape) {
-        return false;
+        if (shapes.contains(shape)) {
+            shapes.remove(shape);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Shape getFigure(int n) {
-        return null;
+        if (shapes.isEmpty()) {
+            return null;
+        } else {
+            return shapes.get(n);
+        }
     }
 
     public String showFigures() {
-        return "Shape";
+        String allNames = "";
+        for (Shape theShape : shapes) {
+            allNames += theShape.getShapeName() + " ";
+        }
+        return allNames;
     }
 
     public int getFigureQuantity() {

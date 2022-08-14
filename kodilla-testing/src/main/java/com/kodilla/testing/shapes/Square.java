@@ -17,6 +17,20 @@ public class Square implements Shape {
         return "Square";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Square square)) return false;
+
+        return Double.compare(square.getSideLength(), getSideLength()) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        long temp = Double.doubleToLongBits(getSideLength());
+        return (int) (temp ^ (temp >>> 32));
+    }
+
     public double getSideLength() {
         return sideLength;
     }
