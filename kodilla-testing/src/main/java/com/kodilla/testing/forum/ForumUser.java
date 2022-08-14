@@ -11,12 +11,12 @@ public class ForumUser {
     private List<ForumPost> posts = new ArrayList<>();
     private List<ForumComment> comments = new LinkedList<>();
 
-    public ForumUser(String name, String realName) {            // [10]
+    public ForumUser(String name, String realName) {
         //name visible on forum
-        this.name = name;                                        // [11]
+        this.name = name;
         //real name of the user
-        this.realName = realName;                                // [12]
-    }                                                           // [13]
+        this.realName = realName;
+    }
 
     public void addPost(String author, String postBody) {
         ForumPost thePost = new ForumPost(postBody, author);
@@ -29,7 +29,7 @@ public class ForumUser {
 
     public int getPostsQuantity() {
         return posts.size();
-    }                                                // [20]
+    }
 
     public int getCommentsQuantity() {
         return comments.size();
@@ -67,11 +67,11 @@ public class ForumUser {
         return result;
     }
 
-    public String getName() {                                   // [36]
-        return name;                                             // [37]
-    }                                                           // [38]
+    public String getName() {
+        return name;
+    }
 
-    public String getRealName() {                               // [39]
-        return realName;                                         // [40]
+    public String getRealName() {
+        return realName;
     }
 }
