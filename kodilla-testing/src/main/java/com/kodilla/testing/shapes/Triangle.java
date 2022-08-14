@@ -16,7 +16,7 @@ public class Triangle implements Shape{
 
     @Override
     public String getShapeName() {
-        return "Triangle";
+        return "Triangle ";
     }
 
     @Override

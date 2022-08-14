@@ -30,7 +30,7 @@ public class ShapeCollector {
     public String showFigures() {
         String allNames = "";
         for (Shape theShape : shapes) {
-            allNames += theShape.getShapeName() + " ";
+            allNames += theShape.getShapeName();
         }
         return allNames;
     }

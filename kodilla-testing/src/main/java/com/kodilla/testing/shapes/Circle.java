@@ -16,7 +16,7 @@ public class Circle implements Shape{
 
     @Override
     public String getShapeName() {
-        return "Circle";
+        return "Circle ";
     }
 
     @Override

@@ -84,7 +84,7 @@ public class ShapeCollectorTestSuite {
             collector.addFigure(circle);
 
             //When
-            String names = square.getShapeName() + " " + triangle.getShapeName() + " " + circle.getShapeName() + " ";
+            String names = square.getShapeName() +  triangle.getShapeName() +  circle.getShapeName();
 
             //Then
             Assertions.assertEquals(names, collector.showFigures());
