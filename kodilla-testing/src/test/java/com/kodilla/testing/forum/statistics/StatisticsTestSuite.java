@@ -61,10 +61,14 @@ public class StatisticsTestSuite {
 
             //When
             statisticsData.calculateAdvStatistics(statisticsMock);
-            double result = statisticsData.getAveragePostsPerUser();
+            double resultComments = statisticsData.getAverageCommentsPerPosts();
+            double resultPosts = statisticsData.getAveragePostsPerUser();
+            double resultUsers = statisticsData.getAverageCommentsPerUser();
 
             //Then
-            assertEquals(1,result);
+            assertEquals(1,resultUsers);
+            assertEquals(1,resultPosts);
+            assertEquals(1,resultComments);
         }
 
         @Test
@@ -72,7 +76,7 @@ public class StatisticsTestSuite {
 
             //Given
             StatisticsData statisticsData = new StatisticsData(statisticsMock);
-            statisticsGenerator(1,1000,1);
+            statisticsGenerator(500,1000,1);
 
             when(statisticsMock.postsCount()).thenReturn(postsQuantity);
             when(statisticsMock.commentsCount()).thenReturn(commentsQuantity);
@@ -80,10 +84,14 @@ public class StatisticsTestSuite {
 
             //When
             statisticsData.calculateAdvStatistics(statisticsMock);
-            double result = statisticsData.getAveragePostsPerUser();
+            double resultComments = statisticsData.getAverageCommentsPerPosts();
+            double resultPosts = statisticsData.getAveragePostsPerUser();
+            double resultUsers = statisticsData.getAverageCommentsPerUser();
 
             //Then
-            assertEquals(1000,result);
+            assertEquals(500,resultUsers);
+            assertEquals(1000,resultPosts);
+            assertEquals(0.5,resultComments);
         }
     }
 
@@ -115,7 +123,7 @@ public class StatisticsTestSuite {
 
             //Given
             StatisticsData statisticsData = new StatisticsData(statisticsMock);
-            statisticsGenerator(1,2,1);
+            statisticsGenerator(1,2,2);
 
             when(statisticsMock.postsCount()).thenReturn(postsQuantity);
             when(statisticsMock.commentsCount()).thenReturn(commentsQuantity);
@@ -123,10 +131,14 @@ public class StatisticsTestSuite {
 
             //When
             statisticsData.calculateAdvStatistics(statisticsMock);
-            double result = statisticsData.getAverageCommentsPerPosts();
+            double resultComments = statisticsData.getAverageCommentsPerPosts();
+            double resultPosts = statisticsData.getAveragePostsPerUser();
+            double resultUsers = statisticsData.getAverageCommentsPerUser();
 
             //Then
-            assertTrue(result < 1);
+            assertTrue(resultPosts > resultComments);
+            assertTrue(resultPosts > resultUsers);
+            assertTrue(resultUsers == resultComments);
         }
 
         @Test
@@ -142,10 +154,14 @@ public class StatisticsTestSuite {
 
             //When
             statisticsData.calculateAdvStatistics(statisticsMock);
-            double result = statisticsData.getAverageCommentsPerPosts();
+            double resultComments = statisticsData.getAverageCommentsPerPosts();
+            double resultPosts = statisticsData.getAveragePostsPerUser();
+            double resultUsers = statisticsData.getAverageCommentsPerUser();
 
             //Then
-            assertTrue(result > 1);
+            assertTrue(resultPosts < resultComments);
+            assertTrue(resultPosts < resultUsers);
+            assertTrue(resultUsers == resultComments);
         }
     }
 
@@ -159,8 +175,6 @@ public class StatisticsTestSuite {
             //Given
             StatisticsData statisticsData = new StatisticsData(statisticsMock);
             statisticsGenerator(100,100,0);
-
-
             when(statisticsMock.usersNames()).thenReturn(userQuantity);
 
             //When
@@ -171,6 +185,8 @@ public class StatisticsTestSuite {
 
             //Then
             assertEquals(0,resultUsers);
+            assertEquals(0,resultPosts);
+            assertEquals(0,resultComments);
         }
 
         @Test
