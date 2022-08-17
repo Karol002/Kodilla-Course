@@ -2,10 +2,7 @@ package com.kodilla.stream;
 
 
 import com.kodilla.stream.beautifier.PoemBeautifier;
-import com.kodilla.stream.beautifier.PoemDecorator;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class StreamMain {
