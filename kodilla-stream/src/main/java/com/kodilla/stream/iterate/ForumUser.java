@@ -4,7 +4,7 @@ public final class ForumUser {
     private final String name;
     private final String realName;
 
-    public ForumUser(String name, String realName) {
+    public ForumUser(final String name, final String realName) {
         this.name = name;
         this.realName = realName;
     }
