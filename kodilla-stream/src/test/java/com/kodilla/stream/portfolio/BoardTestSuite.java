@@ -3,6 +3,7 @@ package com.kodilla.stream.portfolio;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -95,7 +96,7 @@ public class BoardTestSuite {
                 .collect(toList());
 
         double average = IntStream.range(0, timesAverage.size())
-                        .map(n -> LocalDate.now().getDayOfYear() - timesAverage.get(n).getDayOfYear())
+                        .mapToLong(n ->ChronoUnit.DAYS.between(timesAverage.get(n), LocalDate.now()))
                                 .average().getAsDouble();
 
         //Then
