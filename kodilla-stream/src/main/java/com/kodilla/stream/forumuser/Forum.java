@@ -17,7 +17,7 @@ public final class Forum {
         userList.add(new Forumuser(004, "Klaus",'M',
                 LocalDate.of(1990, 1, 2), 7));
         userList.add(new Forumuser(005, "Darius",'M',
-                LocalDate.of(1995, 3, 1), 10));
+                LocalDate.of(2002, 3, 1), 10));
     }
 
     public List<Forumuser> getList() {
