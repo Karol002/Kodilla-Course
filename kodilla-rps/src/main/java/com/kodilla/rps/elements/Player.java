@@ -5,12 +5,12 @@ public class Player {
     private int points;
     Figure actualMove;
 
-    public Player() {
+    public Player(String name) {
         this.name = name;
         this.points = 0;
     }
 
-    public void setActualMove(int choice) {
+    public void choseActualMove(int choice) {
         if (choice == 1) actualMove = Figure.stone;
         if (choice == 2) actualMove = Figure.paper;
         if (choice == 3) actualMove = Figure.scissors;

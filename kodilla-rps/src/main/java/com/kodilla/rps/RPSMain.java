@@ -14,9 +14,10 @@ public class RPSMain {
         Random random = new Random();
         Scanner scan = new Scanner(System.in);
 
-        Player player = new Player();
-        Player computer = new Player();
-        Game game = new Game(player, computer);
+        Player player = new Player("Player1");
+        Player computer1 = new Player("VirtualPlayer1");
+        Player computer2 = new Player("VirtualPlayer2");
+        Game game = new Game(player, computer1, computer2);
 
         while (!repeat) {
             System.out.println("------------THE NEW GAME STARTS------------");
@@ -31,19 +32,19 @@ public class RPSMain {
 
             while (!end) {
                 System.out.println("\nSelect your move " + player.getName());
-                System.out.println("Round result: " + game.getRoundWinner(scan.nextInt(),
-                        random.nextInt(3)+1));
+                System.out.println("Round result: " + game.makeRoundBattle(scan.nextInt(),
+                        random.nextInt(3)+1, random.nextInt(3)+1));
                 System.out.println(game.showStatistics());
                 end = game.checkRoundsQuantity();
             }
 
-            System.out.println("\n \n \nThe game result: " + game.checkWinner());
+            System.out.println("\n \n \nThe game result: " + game.checkMatchWinner());
             System.out.println("Statistics: \n" + game.showStatistics());
             System.out.println();
 
             System.out.println("Do you want to repeat the game? ");
             System.out.println("If yes press n, if dont press x");
-            repeat = game.gameDecision(scan.next());
+            repeat = game.checkGameDecision(scan.next());
             end = repeat;
             game.clean();
         }
