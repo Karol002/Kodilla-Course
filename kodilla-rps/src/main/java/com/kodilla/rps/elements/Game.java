@@ -1,23 +1,14 @@
 package com.kodilla.rps.elements;
 
-import java.util.Scanner;
-
 public class Game {
     private Player player;
     private Player computer;
-
-    private int playerDec;
-    private int computerDec;
     private int roundsQuantity;
-    private int actualRound;
+    private int actualRound = 1;
 
     public Game(Player player, Player computer) {
         this.player = player;
         this.computer = computer;
-        this.roundsQuantity = 0;
-        this.actualRound = 1;
-        this.playerDec = 0;
-        this.computerDec = 0;
     }
 
     public boolean gameDecision(String decision) {
@@ -37,35 +28,25 @@ public class Game {
                 "\n" + computer.getName() + " points: " + computer.getPoints();
     }
 
-    public void selectMove(int p, int c) {
-        playerDec = p;
-        computerDec = c;
-    }
+    public String getRoundWinner(int playerDecision, int computerDecision) {
+        actualRound++;
 
-    public String getRoundWinner() {
-        if (playerDec == computerDec) {
-            actualRound++;
+        if (playerDecision == computerDecision) {
             return "Remis";
         }
-        if ((playerDec == 1 && computerDec == 3) ||
-                (playerDec == 2 && computerDec == 1) ||
-                (playerDec == 3 && computerDec == 2)) {
+        if ((playerDecision == 1 && computerDecision == 3) ||
+                (playerDecision == 2 && computerDecision == 1) ||
+                (playerDecision == 3 && computerDecision == 2)) {
             player.addPoint();
-            actualRound++;
             return "The winner is " + player.getName();
         } else {
             computer.addPoint();
-            actualRound++;
             return "The winner is " + computer.getName();
         }
     }
 
     public boolean checkRoundsQuantity() {
-        if (actualRound > roundsQuantity) {
-            return true;
-        } else {
-            return false;
-        }
+       return (actualRound > roundsQuantity);
     }
 
     public String checkWinner() {
@@ -78,50 +59,25 @@ public class Game {
         }
     }
 
-    public void cleaner() {
+    public void clean() {
         roundsQuantity = 0;
         actualRound = 1;
-        playerDec = 0;
-        computerDec = 0;
-        computer.setPoints(0);
-        player.setPoints(0);
-    }
-
-    public String gameInfo() {
-        return "1 key – playing \"stone\",\n" +
-                "2 key – playing \"paper\",\n" +
-                "3 key – playing \"scissors\",\n" +
-                "x key – the end of the game preceded by the question " +
-                "\"Are you sure to end the game?\",\n" +
-                "n key – starting the game from scratch preceded by the question " +
-                "\"Are you sure to end the current game?\",";
+        computer.cleanPoints();
+        player.cleanPoints();
     }
 
     public void setRoundsQuantity(int n) {
         roundsQuantity = n;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Player getComputer() {
-        return computer;
-    }
-
-    public int getPlayerDec() {
-        return playerDec;
-    }
-
-    public int getComputerDec() {
-        return computerDec;
-    }
-
-    public int getRoundsQuantity() {
-        return roundsQuantity;
-    }
-
-    public int getActualRound() {
-        return actualRound;
+    public String gameInfo() {
+        return """
+                1 key – playing stone
+                2 key – playing paper
+                3 key – playing scissors
+                x key – the end of the game preceded by the question
+                Are you sure to end the game?
+                n key – starting the game from scratch preceded by the question
+                Are you sure to end the current game?""";
     }
 }
