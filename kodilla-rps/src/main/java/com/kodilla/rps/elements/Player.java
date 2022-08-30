@@ -5,6 +5,10 @@ public class Player {
     private int points = 0;
     Figure actualMove;
 
+    public Player() {
+        this.name = "UnNamedPlayer";
+    }
+
     public void choseActualMove(int choice) {
         if (choice == 1) actualMove = Figure.stone;
         if (choice == 2) actualMove = Figure.paper;
@@ -35,5 +39,18 @@ public class Player {
 
     public int getPoints() {
         return points;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Player player)) return false;
+
+        return getName().equals(player.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
     }
 }

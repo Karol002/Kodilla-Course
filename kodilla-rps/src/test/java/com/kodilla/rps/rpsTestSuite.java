@@ -5,10 +5,21 @@ import com.kodilla.rps.elements.Game;
 import com.kodilla.rps.elements.Player;
 import org.junit.jupiter.api.*;
 
+import static com.kodilla.rps.elements.DataConverter.selectPlayersName;
+import static com.kodilla.rps.elements.Judge.checkRoundsQuantity;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class rpsTestSuite {
     private static int testCounter = 0;
+
+    public static int [] moveGenerator(int movePlayer1, int movePlayer2, int movePlayer3) {
+        int [] moves = new int [3];
+
+        moves[0] = movePlayer1;
+        moves[1] = movePlayer2;
+        moves[2] = movePlayer3;
+        return moves;
+    }
 
     @BeforeAll
     public static void beforeAll() {
@@ -85,13 +96,14 @@ public class rpsTestSuite {
         void testRoundsCounter() {
             //Given
             Game game = new Game(new Player(), new Player(), new Player());
-            game.setPlayerNames("Player1", "VirtualPlayer1", "VirtualPlayer2");
+            int playersQuantity = game.getPlayerList().size();
+            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
+            int roundsQuantity = 5;
 
             //When
-            game.setRoundsQuantity(5);
             int i = 0;
-            while (!game.checkRoundsQuantity()) {
-                game.singleRoundBattle(1, 1, 1);
+            while (!checkRoundsQuantity(game, roundsQuantity)) {
+                game.doRoundBattleSequence(moveGenerator(1, 1, 1));
                 i++;
             }
 
@@ -103,15 +115,15 @@ public class rpsTestSuite {
         void testForDrawRoundResult() {
             //Given
             Game game = new Game(new Player(), new Player(), new Player());
-            game.setPlayerNames("Player1", "VirtualPlayer1", "VirtualPlayer2");
+            int playersQuantity = game.getPlayerList().size();
+            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
 
             //When
             String draw = "There is no winners in this round";
-            game.setRoundsQuantity(4);
-            String firstOption = game.singleRoundBattle(1, 1, 1);
-            String secondOption = game.singleRoundBattle(2, 1, 3);
-            String thirdOption = game.singleRoundBattle(5, 1, 4);
-            String fourthOption = game.singleRoundBattle(4, 3, 2);
+            String firstOption = game.doRoundBattleSequence(moveGenerator(1, 1, 1));
+            String secondOption = game.doRoundBattleSequence(moveGenerator(2, 1, 3));
+            String thirdOption = game.doRoundBattleSequence(moveGenerator(5, 1, 4));
+            String fourthOption = game.doRoundBattleSequence(moveGenerator(4, 3, 2));
 
             //Then
             assertEquals(draw, firstOption);
@@ -123,16 +135,16 @@ public class rpsTestSuite {
         void testForOneRoundWinner() {
             //Given
             Game game = new Game(new Player(), new Player(), new Player());
-            game.setPlayerNames("Player1", "VirtualPlayer1", "VirtualPlayer2");
+            int playersQuantity = game.getPlayerList().size();
+            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
 
             //When
-            game.setRoundsQuantity(4);
             String winner = "Winners: Player1 ";
-            String firstOption = game.singleRoundBattle(1, 5, 3);
-            String secondOption = game.singleRoundBattle(2, 1, 4);
-            String thirdOption = game.singleRoundBattle(3, 2, 5);
-            String fourthOption = game.singleRoundBattle(4, 1, 3);
-            String fifthOption = game.singleRoundBattle(5, 2, 4);
+            String firstOption = game.doRoundBattleSequence(moveGenerator(1, 5, 3));
+            String secondOption = game.doRoundBattleSequence(moveGenerator(2, 1, 4));
+            String thirdOption = game.doRoundBattleSequence(moveGenerator(3, 2, 5));
+            String fourthOption = game.doRoundBattleSequence(moveGenerator(4, 1, 3));
+            String fifthOption = game.doRoundBattleSequence(moveGenerator(5, 2, 4));
 
             //Then
             assertEquals(winner, firstOption);
@@ -146,16 +158,16 @@ public class rpsTestSuite {
         void testForFewRoundWinner() {
             //Given
             Game game = new Game(new Player(), new Player(), new Player());
-            game.setPlayerNames("Player1", "VirtualPlayer1", "VirtualPlayer2");
+            int playersQuantity = game.getPlayerList().size();
+            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
 
             //When
-            game.setRoundsQuantity(4);
             String winner = "Winners: Player1 VirtualPlayer1 ";
-            String firstOption = game.singleRoundBattle(1, 1, 3);
-            String secondOption = game.singleRoundBattle(2, 2, 4);
-            String thirdOption = game.singleRoundBattle(3, 3, 5);
-            String fourthOption = game.singleRoundBattle(4, 4, 3);
-            String fifthOption = game.singleRoundBattle(5, 5, 4);
+            String firstOption = game.doRoundBattleSequence(moveGenerator(1, 1, 3));
+            String secondOption = game.doRoundBattleSequence(moveGenerator(2, 2, 4));
+            String thirdOption = game.doRoundBattleSequence(moveGenerator(3, 3, 5));
+            String fourthOption = game.doRoundBattleSequence(moveGenerator(4, 4, 3));
+            String fifthOption = game.doRoundBattleSequence(moveGenerator(5, 5, 4));
 
             //Then
             assertEquals(winner, firstOption);
@@ -169,21 +181,21 @@ public class rpsTestSuite {
         void testForMatchResult() {
             //Given
             Game game = new Game(new Player(), new Player(), new Player());
-            game.setPlayerNames("Player1", "VirtualPlayer1", "VirtualPlayer2");
+            int playersQuantity = game.getPlayerList().size();
+            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
 
             //When
-            game.setRoundsQuantity(5);
 
-            game.singleRoundBattle(1, 1, 1);
+            game.doRoundBattleSequence(moveGenerator(1, 1, 1));
             String drawFirstOption = game.checkMatchWinner();
 
-            game.singleRoundBattle(2, 1, 3);
+            game.doRoundBattleSequence(moveGenerator(2, 1, 3));
             String drawSecondOption = game.checkMatchWinner();
 
-            game.singleRoundBattle(3, 1, 3);
+            game.doRoundBattleSequence(moveGenerator(3, 1, 3));
             String virtualPlayer1Win = game.checkMatchWinner();
 
-            game.singleRoundBattle(1, 1, 2);
+            game.doRoundBattleSequence(moveGenerator(1, 1, 2));
             String virtualPlayers1and2Win = game.checkMatchWinner();
 
             //Then
@@ -200,11 +212,13 @@ public class rpsTestSuite {
             Player computer1 = new Player();
             Player computer2 = new Player();
             Game game = new Game(player, computer1, computer2);
+            int playersQuantity = game.getPlayerList().size();
+            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
+            int roundsQuantity = 4;
 
             //When
-            game.setRoundsQuantity(5);
-            while (!game.checkRoundsQuantity()) {
-                game.singleRoundBattle(1, 2, 2);
+            while (!checkRoundsQuantity(game, roundsQuantity)) {
+                game.doRoundBattleSequence(moveGenerator(1, 2, 2));
             }
             game.clean();
 
@@ -213,7 +227,6 @@ public class rpsTestSuite {
                     () -> assertEquals(0, player.getPoints()),
                     () -> assertEquals(0, computer1.getPoints()),
                     () -> assertEquals(0, computer2.getPoints()),
-                    () -> assertEquals(0, game.getRoundsQuantity()),
                     () -> assertEquals(1, game.getActualRound()));
         }
     }

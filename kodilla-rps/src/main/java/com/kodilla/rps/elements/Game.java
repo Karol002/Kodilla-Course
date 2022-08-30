@@ -1,11 +1,12 @@
 package com.kodilla.rps.elements;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 public class Game implements Judge{
     private final List<Player> playerList = new ArrayList<>();
-    private int roundsQuantity;
     private int actualRound = 1;
 
     public Game(Player player, Player computer1, Player computer2) {
@@ -14,48 +15,28 @@ public class Game implements Judge{
         this.playerList.add(computer2);
     }
 
-    public boolean checkGameDecision(String decision) {
-        if (decision.equals("x") || decision.equals("X")) {
-            return true;
-        } else if (decision.equals("n") || decision.equals("N")) {
-            return false;
-        } else {
-            System.out.println("Error!!! You have entered incorrect data. Ending the game");
-            return true;
-        }
-    }
+    public String doRoundBattleSequence(int [] playersMoves) {
+        Deque<Player> battleDeque = new ArrayDeque<>();
+        StringBuilder winnersLog = new StringBuilder();
+        int playerNumber = 0;
 
-    public String showStatistics() {
-        String statistics = "Round " + (actualRound-1);
-        for(Player thePlayer : playerList) {
-            statistics += "\n" + thePlayer.getName() + " points: " + thePlayer.getPoints();
-        }
-        return statistics;
-    }
+        setPlayersMove(playersMoves);
 
-    public String singleRoundBattle(int userDecision, int computerDecision1, int computerDecision2) {
-        playerList.get(0).choseActualMove(userDecision);
-        playerList.get(1).choseActualMove(computerDecision1);
-        playerList.get(2).choseActualMove(computerDecision2);
-        String winnersLog = "";
+        for (Player thePlayer : playerList) {
+            for (Player checkingPlayer : playerList){
+                if (!thePlayer.equals(checkingPlayer)) battleDeque.add(checkingPlayer);
+            }
+            winnersLog.append(doSingleMoveInBattle(thePlayer.getActualMove(),
+                    battleDeque.poll().actualMove, battleDeque.poll().actualMove, playerNumber));
+            playerNumber++;
+        }
+
         actualRound++;
-
-        for (int i=0; i<playerList.size(); i++) {
-            if (i==0) winnersLog += singleMoveBattle(playerList.get(i).getActualMove(),
-                    playerList.get(1).getActualMove(), playerList.get(2).getActualMove(), i);
-
-            if (i==1) winnersLog += singleMoveBattle(playerList.get(i).getActualMove(),
-                    playerList.get(0).getActualMove(), playerList.get(2).getActualMove(), i);
-
-            if (i==2) winnersLog += singleMoveBattle(playerList.get(i).getActualMove(),
-                    playerList.get(1).getActualMove(), playerList.get(0).getActualMove(), i);
-
-        }
-        if (winnersLog.equals("")) return "There is no winners in this round";
+        if (winnersLog.toString().equals("")) return "There is no winners in this round";
         else return "Winners: " + winnersLog;
     }
 
-    public String singleMoveBattle(Figure actualPlayerMove, Figure otherPlayerMove1, Figure otherPlayerMove2, int playerNumber) {
+    private String doSingleMoveInBattle(Figure actualPlayerMove, Figure otherPlayerMove1, Figure otherPlayerMove2, int playerNumber) {
 
         if (actualPlayerMove.equals(Figure.stone) && Judge.checkResultForStone(otherPlayerMove1, otherPlayerMove2)) {
             playerList.get(playerNumber).addPoint();
@@ -80,8 +61,18 @@ public class Game implements Judge{
         else return "";
     }
 
-    public boolean checkRoundsQuantity() {
-       return (actualRound > roundsQuantity);
+    private void setPlayersMove(int [] playersMoves) {
+        for (int i=0; i<playerList.size(); i++) {
+            playerList.get(i).choseActualMove(playersMoves[i]);
+        }
+    }
+
+    public String showStatistics() {
+        String statistics = "Round " + (actualRound-1);
+        for(Player thePlayer : playerList) {
+            statistics += "\n" + thePlayer.getName() + " points: " + thePlayer.getPoints();
+        }
+        return statistics;
     }
 
     public String checkMatchWinner() {
@@ -103,34 +94,27 @@ public class Game implements Judge{
         else return  winner;
     }
 
-    public void setPlayerNames(String playerName, String computerName1, String computerName2) {
-        playerList.get(0).setName(playerName);
-        playerList.get(1).setName(computerName1);
-        playerList.get(2).setName(computerName2);
+    public void setPlayerNames(String [] names) {
+        for (int i=0; i<playerList.size(); i++) {
+            playerList.get(i).setName(names[i]);
+        }
     }
 
     public void clean() {
-        roundsQuantity = 0;
         actualRound = 1;
         for (Player thePlayer : playerList) {
             thePlayer.cleanPoints();
         }
     }
 
-    public void setRoundsQuantity(int userInput) {
-        roundsQuantity = userInput;
-    }
 
     public int getActualRound() {
         return actualRound;
     }
 
-    public int getRoundsQuantity() {
-        return roundsQuantity;
-    }
 
-    public Player getPlayer(int playerNumber) {
-        return playerList.get(playerNumber);
+    public List<Player> getPlayerList() {
+        return playerList;
     }
 
     public String gameInfo() {
