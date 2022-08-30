@@ -46,11 +46,16 @@ public class Player {
         if (this == o) return true;
         if (!(o instanceof Player player)) return false;
 
-        return getName().equals(player.getName());
+        if (getPoints() != player.getPoints()) return false;
+        if (!getName().equals(player.getName())) return false;
+        return getActualMove() == player.getActualMove();
     }
 
     @Override
     public int hashCode() {
-        return getName().hashCode();
+        int result = getName().hashCode();
+        result = 31 * result + getPoints();
+        result = 31 * result + getActualMove().hashCode();
+        return result;
     }
 }

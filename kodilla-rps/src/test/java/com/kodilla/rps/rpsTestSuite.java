@@ -14,7 +14,6 @@ public class rpsTestSuite {
 
     public static int [] moveGenerator(int movePlayer1, int movePlayer2, int movePlayer3) {
         int [] moves = new int [3];
-
         moves[0] = movePlayer1;
         moves[1] = movePlayer2;
         moves[2] = movePlayer3;

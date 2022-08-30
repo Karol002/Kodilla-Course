@@ -16,7 +16,7 @@ public class Game implements Judge{
     }
 
     public String doRoundBattleSequence(int [] playersMoves) {
-        Deque<Player> battleDeque = new ArrayDeque<>();
+        Deque<Figure> battleDeque = new ArrayDeque<>();
         StringBuilder winnersLog = new StringBuilder();
         int playerNumber = 0;
 
@@ -24,10 +24,10 @@ public class Game implements Judge{
 
         for (Player thePlayer : playerList) {
             for (Player checkingPlayer : playerList){
-                if (!thePlayer.equals(checkingPlayer)) battleDeque.add(checkingPlayer);
+                if (!thePlayer.equals(checkingPlayer)) battleDeque.add(checkingPlayer.getActualMove());
             }
             winnersLog.append(doSingleMoveInBattle(thePlayer.getActualMove(),
-                    battleDeque.poll().actualMove, battleDeque.poll().actualMove, playerNumber));
+                    battleDeque.poll(), battleDeque.poll(), playerNumber));
             playerNumber++;
         }
 
