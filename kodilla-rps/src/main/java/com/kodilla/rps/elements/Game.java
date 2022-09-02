@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
-public class Game implements Judge{
+public class Game {
     private final List<Player> playerList = new ArrayList<>();
+
+    private final Judge judge;
     private int actualRound = 1;
 
-    public Game(Player player, Player computer1, Player computer2) {
+    public Game(Player player, Player computer1, Player computer2, Judge judge) {
         this.playerList.add(player);
         this.playerList.add(computer1);
         this.playerList.add(computer2);
+        this.judge = judge;
     }
 
     public String doRoundBattleSequence(int [] playersMoves) {
@@ -38,27 +41,27 @@ public class Game implements Judge{
 
     private String doSingleMoveInBattle(Figure actualPlayerMove, Figure otherPlayerMove1, Figure otherPlayerMove2, int playerNumber) {
 
-        if (actualPlayerMove.equals(Figure.stone) && Judge.checkResultForStone(otherPlayerMove1, otherPlayerMove2)) {
-            playerList.get(playerNumber).addPoint();
-            return playerList.get(playerNumber).getName() + " ";
+        if (actualPlayerMove.equals(Figure.stone) && judge.checkResultForStone(otherPlayerMove1, otherPlayerMove2)) {
+            return getBattleWinner(playerNumber);
         }
-        else if (actualPlayerMove.equals(Figure.paper) && Judge.checkResultForPaper(otherPlayerMove1, otherPlayerMove2)) {
-            playerList.get(playerNumber).addPoint();
-            return playerList.get(playerNumber).getName() + " ";
+        else if (actualPlayerMove.equals(Figure.paper) && judge.checkResultForPaper(otherPlayerMove1, otherPlayerMove2)) {
+            return getBattleWinner(playerNumber);
         }
-        else if (actualPlayerMove.equals(Figure.scissors) && Judge.checkResultForScissors(otherPlayerMove1, otherPlayerMove2)) {
-            playerList.get(playerNumber).addPoint();
-            return playerList.get(playerNumber).getName() + " ";
+        else if (actualPlayerMove.equals(Figure.scissors) && judge.checkResultForScissors(otherPlayerMove1, otherPlayerMove2)) {
+            return getBattleWinner(playerNumber);
         }
-        else if (actualPlayerMove.equals(Figure.spock) && Judge.checkResultForSpock(otherPlayerMove1, otherPlayerMove2)) {
-            playerList.get(playerNumber).addPoint();
-            return playerList.get(playerNumber).getName() + " ";
+        else if (actualPlayerMove.equals(Figure.spock) && judge.checkResultForSpock(otherPlayerMove1, otherPlayerMove2)) {
+            return getBattleWinner(playerNumber);
         }
-        else if (actualPlayerMove.equals(Figure.lizard) && Judge.checkResultForLizard(otherPlayerMove1, otherPlayerMove2)) {
-            playerList.get(playerNumber).addPoint();
-            return playerList.get(playerNumber).getName() + " ";
+        else if (actualPlayerMove.equals(Figure.lizard) && judge.checkResultForLizard(otherPlayerMove1, otherPlayerMove2)) {
+            return getBattleWinner(playerNumber);
         }
         else return "";
+    }
+
+    private String getBattleWinner(int playerNumber) {
+        playerList.get(playerNumber).addPoint();
+        return playerList.get(playerNumber).getName() + " ";
     }
 
     private void setPlayersMove(int [] playersMoves) {
@@ -68,15 +71,15 @@ public class Game implements Judge{
     }
 
     public String showStatistics() {
-        String statistics = "Round " + (actualRound-1);
+        StringBuilder statistics = new StringBuilder("Round " + (actualRound - 1));
         for(Player thePlayer : playerList) {
-            statistics += "\n" + thePlayer.getName() + " points: " + thePlayer.getPoints();
+            statistics.append("\n").append(thePlayer.getName()).append(" points: ").append(thePlayer.getPoints());
         }
-        return statistics;
+        return statistics.toString();
     }
 
     public String checkMatchWinner() {
-        String winner = "Match winners: ";
+        StringBuilder winner = new StringBuilder("Match winners: ");
         int theBiggestPointsQuantity = 0;
         int winnersQuantity = 0;
 
@@ -85,13 +88,13 @@ public class Game implements Judge{
         }
         for (Player thePlayer : playerList) {
             if (thePlayer.getPoints() == theBiggestPointsQuantity) {
-                winner += thePlayer.getName() + " ";
+                winner.append(thePlayer.getName()).append(" ");
                 winnersQuantity++;
             }
         }
 
-        if (winnersQuantity >= 3) return "Draw!";
-        else return  winner;
+        if (winnersQuantity >= playerList.size()) return "Draw!";
+        else return winner.toString();
     }
 
     public void setPlayerNames(String [] names) {

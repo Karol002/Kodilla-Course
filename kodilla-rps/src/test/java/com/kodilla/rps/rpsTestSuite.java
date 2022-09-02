@@ -1,16 +1,21 @@
 package com.kodilla.rps;
 
-import com.kodilla.rps.elements.Figure;
-import com.kodilla.rps.elements.Game;
-import com.kodilla.rps.elements.Player;
+import com.kodilla.rps.elements.*;
 import org.junit.jupiter.api.*;
 
-import static com.kodilla.rps.elements.DataConverter.selectPlayersName;
-import static com.kodilla.rps.elements.Judge.checkRoundsQuantity;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class rpsTestSuite {
     private static int testCounter = 0;
+    private static DataConverter dataConverter = new DataConverter();
+    private static Judge judge = new Judge();
+
+    public static Game gameGenerator() {
+        Game game = new Game(new Player(), new Player(), new Player(), judge);
+        int playersQuantity = game.getPlayerList().size();
+        game.setPlayerNames(dataConverter.selectPlayersName(playersQuantity, "Player1"));
+        return game;
+    }
 
     public static int [] moveGenerator(int movePlayer1, int movePlayer2, int movePlayer3) {
         int [] moves = new int [3];
@@ -88,20 +93,81 @@ public class rpsTestSuite {
     }
 
     @Nested
+    @DisplayName("Tests for Judge")
+    class JudgeFunctionTests {
+
+        @Test
+        void testForCheckRoundsQuantity() {
+            //Given
+            Game game = gameGenerator();
+            int roundsQuantity = 5;
+
+            //When
+            int i = 0;
+            while (!judge.checkRoundsQuantity(game, roundsQuantity)) {
+                game.doRoundBattleSequence(moveGenerator(1, 1, 1));
+                i++;
+            }
+            boolean firstOption = judge.checkRoundsQuantity(game, 1);
+            boolean secondOption = judge.checkRoundsQuantity(game, 10);
+            boolean thirdOption = judge.checkRoundsQuantity(game, 5);
+
+            //Then
+            assertTrue(firstOption);
+            assertTrue(!secondOption);
+            assertTrue(thirdOption);
+        }
+
+        @Test
+        void checkGameDecision() {
+            //Given && Then
+            boolean firstOption = judge.checkGameDecision("X");
+            boolean secondOption = judge.checkGameDecision("N");
+            boolean thirdOption = judge.checkGameDecision("Z");
+            boolean fourthOption = judge.checkGameDecision("x");
+            boolean fifthOption = judge.checkGameDecision("n");
+
+            //Then
+            assertAll(
+                    () -> assertTrue(firstOption),
+                    () -> assertFalse(secondOption),
+                    () -> assertTrue(thirdOption),
+                    () -> assertTrue(fourthOption),
+                    () -> assertFalse(fifthOption));
+        }
+
+        @Test
+        void testForGetWinner() {
+            //When && Given
+            boolean firstOption = judge.checkResultForStone(Figure.stone, Figure.scissors);
+            boolean secondOption = judge.checkResultForPaper(Figure.stone, Figure.paper);
+            boolean thirdOption = judge.checkResultForScissors(Figure.paper, Figure.scissors);
+            boolean fourthOption = judge.checkResultForSpock(Figure.stone, Figure.scissors);
+            boolean fifthOption = judge.checkResultForLizard(Figure.spock, Figure.paper);
+
+            //Then
+            assertAll(
+                    () -> assertTrue(firstOption),
+                    () -> assertTrue(secondOption),
+                    () -> assertTrue(thirdOption),
+                    () -> assertTrue(fourthOption),
+                    () -> assertTrue(fifthOption));
+        }
+    }
+
+    @Nested
     @DisplayName("Tests for Game class")
     class  GameRulesTest {
 
         @Test
         void testRoundsCounter() {
             //Given
-            Game game = new Game(new Player(), new Player(), new Player());
-            int playersQuantity = game.getPlayerList().size();
-            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
+            Game game = gameGenerator();
             int roundsQuantity = 5;
 
             //When
             int i = 0;
-            while (!checkRoundsQuantity(game, roundsQuantity)) {
+            while (!judge.checkRoundsQuantity(game, roundsQuantity)) {
                 game.doRoundBattleSequence(moveGenerator(1, 1, 1));
                 i++;
             }
@@ -113,9 +179,7 @@ public class rpsTestSuite {
         @Test
         void testForDrawRoundResult() {
             //Given
-            Game game = new Game(new Player(), new Player(), new Player());
-            int playersQuantity = game.getPlayerList().size();
-            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
+            Game game = gameGenerator();
 
             //When
             String draw = "There is no winners in this round";
@@ -133,9 +197,7 @@ public class rpsTestSuite {
         @Test
         void testForOneRoundWinner() {
             //Given
-            Game game = new Game(new Player(), new Player(), new Player());
-            int playersQuantity = game.getPlayerList().size();
-            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
+            Game game = gameGenerator();
 
             //When
             String winner = "Winners: Player1 ";
@@ -156,9 +218,7 @@ public class rpsTestSuite {
         @Test
         void testForFewRoundWinner() {
             //Given
-            Game game = new Game(new Player(), new Player(), new Player());
-            int playersQuantity = game.getPlayerList().size();
-            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
+            Game game = gameGenerator();
 
             //When
             String winner = "Winners: Player1 VirtualPlayer1 ";
@@ -179,12 +239,9 @@ public class rpsTestSuite {
         @Test
         void testForMatchResult() {
             //Given
-            Game game = new Game(new Player(), new Player(), new Player());
-            int playersQuantity = game.getPlayerList().size();
-            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
+            Game game = gameGenerator();
 
             //When
-
             game.doRoundBattleSequence(moveGenerator(1, 1, 1));
             String drawFirstOption = game.checkMatchWinner();
 
@@ -210,13 +267,13 @@ public class rpsTestSuite {
             Player player = new Player();
             Player computer1 = new Player();
             Player computer2 = new Player();
-            Game game = new Game(player, computer1, computer2);
+            Game game = new Game(player, computer1, computer2, judge);
             int playersQuantity = game.getPlayerList().size();
-            game.setPlayerNames(selectPlayersName(playersQuantity, "Player1"));
+            game.setPlayerNames(dataConverter.selectPlayersName(playersQuantity, "Player1"));
             int roundsQuantity = 4;
 
             //When
-            while (!checkRoundsQuantity(game, roundsQuantity)) {
+            while (!judge.checkRoundsQuantity(game, roundsQuantity)) {
                 game.doRoundBattleSequence(moveGenerator(1, 2, 2));
             }
             game.clean();

@@ -2,11 +2,15 @@ package com.kodilla.rps.elements;
 
 public class Player {
     private String name;
+    private final int userID;
+    static private int nextID;
     private int points = 0;
-    Figure actualMove;
+    private Figure actualMove;
 
     public Player() {
-        this.name = "UnNamedPlayer";
+        nextID += 10;
+        userID = nextID;
+        this.name = "UnNamedPlayer" + nextID;
     }
 
     public void choseActualMove(int choice) {
@@ -46,16 +50,14 @@ public class Player {
         if (this == o) return true;
         if (!(o instanceof Player player)) return false;
 
-        if (getPoints() != player.getPoints()) return false;
-        if (!getName().equals(player.getName())) return false;
-        return getActualMove() == player.getActualMove();
+        if (userID != player.userID) return false;
+        return getName().equals(player.getName());
     }
 
     @Override
     public int hashCode() {
         int result = getName().hashCode();
-        result = 31 * result + getPoints();
-        result = 31 * result + getActualMove().hashCode();
+        result = 31 * result + userID;
         return result;
     }
 }

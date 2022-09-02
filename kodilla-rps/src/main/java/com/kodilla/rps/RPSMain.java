@@ -1,19 +1,18 @@
 package com.kodilla.rps;
 
+import com.kodilla.rps.elements.DataConverter;
 import com.kodilla.rps.elements.Game;
+import com.kodilla.rps.elements.Judge;
 import com.kodilla.rps.elements.Player;
-
 import java.util.Scanner;
 
-import static com.kodilla.rps.elements.DataConverter.selectMoves;
-import static com.kodilla.rps.elements.DataConverter.selectPlayersName;
-import static com.kodilla.rps.elements.Judge.checkGameDecision;
-import static com.kodilla.rps.elements.Judge.checkRoundsQuantity;
 
 public class RPSMain {
     public static void main(String[] args){
+        DataConverter dataConverter = new DataConverter();
         Player userPlayer = new Player();
-        Game game = new Game(userPlayer, new Player(), new Player());
+        Judge judge = new Judge();
+        Game game = new Game(userPlayer, new Player(), new Player(), judge);
         Scanner scan = new Scanner(System.in);
 
         int playersQuantity = game.getPlayerList().size();
@@ -25,17 +24,17 @@ public class RPSMain {
             System.out.println("------------THE NEW GAME STARTS------------");
 
             System.out.println("Enter your name");
-            game.setPlayerNames(selectPlayersName(playersQuantity, scan.next()));
+            game.setPlayerNames(dataConverter.selectPlayersName(playersQuantity, scan.next()));
             System.out.println("How many rounds should the game have");
             roundsQuantity = scan.nextInt();
             System.out.println(game.gameInfo());
 
             while (!end) {
                 System.out.println("\nSelect your move " + userPlayer.getName());
-                System.out.println("Round result: " + game.doRoundBattleSequence(selectMoves
+                System.out.println("Round result: " + game.doRoundBattleSequence(dataConverter.selectMoves
                         (playersQuantity, scan.nextInt())));
                 System.out.println(game.showStatistics());
-                end = checkRoundsQuantity(game, roundsQuantity);
+                end = judge.checkRoundsQuantity(game, roundsQuantity);
             }
 
             System.out.println("\n \n \n" + "---------------" + game.checkMatchWinner() + "---------------");
@@ -44,7 +43,7 @@ public class RPSMain {
 
             System.out.println("Do you want to repeat the game? ");
             System.out.println("If yes press n, if dont press x");
-            repeat = checkGameDecision(scan.next());
+            repeat = judge.checkGameDecision(scan.next());
             end = repeat;
             game.clean();
         }

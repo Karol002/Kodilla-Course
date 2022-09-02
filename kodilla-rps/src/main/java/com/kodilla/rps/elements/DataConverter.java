@@ -2,8 +2,8 @@ package com.kodilla.rps.elements;
 
 import java.util.Random;
 
-public interface DataConverter {
-    static int [] selectMoves(int size, int userChoice) {
+public class DataConverter {
+    public int [] selectMoves(int size, int userChoice) {
         Random random = new Random();
         int [] moveChoice = new int[size];
 
@@ -14,8 +14,8 @@ public interface DataConverter {
         return moveChoice;
     }
 
-    static String [] selectPlayersName(int size, String userName) {
-        String [] selectedNames = new String[4];
+    public String [] selectPlayersName(int size, String userName) {
+        String [] selectedNames = new String[size];
 
         for (int i = 0; i < selectedNames.length; i++) {
             if (i == 0) selectedNames[i] = userName;
