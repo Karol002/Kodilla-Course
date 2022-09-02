@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Game {
     private final List<Player> playerList = new ArrayList<>();
-
     private final Judge judge;
     private int actualRound = 1;
 
