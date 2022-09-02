@@ -109,11 +109,9 @@ public class Game {
         }
     }
 
-
     public int getActualRound() {
         return actualRound;
     }
-
 
     public List<Player> getPlayerList() {
         return playerList;
