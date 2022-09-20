@@ -46,12 +46,12 @@ public class Game {
     }
 
     private void setOpponentControl() {
-        player2.setSi(presenter.askForOpponentControl());
+        player2.setAi(presenter.askForOpponentControl());
     }
 
     private void setPlayersNames() {
         player1.setName(presenter.askForName(1));
-        if (player2.isSi()) player2.setName("Computer");
+        if (player2.isAi()) player2.setName("Computer");
         else player2.setName(presenter.askForName(2));
     }
 
@@ -64,7 +64,7 @@ public class Game {
         int decision;
         Random random = new Random();
 
-        if (player.isSi()) decision = random.nextInt(9);
+        if (player.isAi()) decision = random.nextInt(9);
         else decision = presenter.askForRoundMove(player);
 
         lastMove = decision;

@@ -4,7 +4,7 @@ public class Player {
     private static int playerNumber = 1;
     private String name = "unNamed" + playerNumber;
     private String figure = "E";
-    private boolean si = false;
+    private boolean ai = false;
     private boolean winner = false;
 
     public Player() {
@@ -35,12 +35,12 @@ public class Player {
         this.figure = figure;
     }
 
-    public boolean isSi() {
-        return si;
+    public boolean isAi() {
+        return ai;
     }
 
-    public void setSi(boolean si) {
-        this.si = si;
+    public void setAi(boolean ai) {
+        this.ai = ai;
     }
 
 }
