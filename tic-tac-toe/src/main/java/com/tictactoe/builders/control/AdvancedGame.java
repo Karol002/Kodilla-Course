@@ -1,8 +1,12 @@
 package com.tictactoe.builders.control;
 
+import com.tictactoe.builders.ingredients.Player;
+
 import java.util.List;
+import java.util.Random;
 
 public class AdvancedGame extends Game {
+    private int lastMove;
     private boolean isAdvanced;
 
     protected void setAdvancedBoardSize() {
@@ -16,9 +20,14 @@ public class AdvancedGame extends Game {
         }
     }
 
+    protected void chosePauseModeDecision() {
+        if (presenter.askForGamePauseModeDecision().equals("e")) setEndGame(true);
+        else presenter.askForSaveGame(getGameBoard());
+    }
+
     protected void loadBoard() {
         if (!presenter.askForLoadGame()) {
-            loadNewBoard();
+            super.loadBoard();
         } else {
             loadOldBoard();
         }
@@ -29,14 +38,35 @@ public class AdvancedGame extends Game {
 
         if (oldGame.size() != 9) {
             presenter.showLoadGameError();
-            loadNewBoard();
+            this.loadBoard();
         } else {
-            getGameData().addAll(oldGame);
+            getGameBoard().addAll(oldGame);
         }
     }
 
-    public void makeAdvancedSequence() {
+    protected boolean choseAdvancedRoundMove(Player player) {
+        int decision;
+        Random random = new Random();
+
+        if (player.isAi()) decision = random.nextInt(getGameBoard().size() * getGameBoard().size());
+        else decision = presenter.askForRoundMove(player, getGameBoard().size());
+
+        lastMove = decision;
+        if (decision == -1) {
+            chosePauseModeDecision();
+            return false;
+        } else {
+            return choseMovePlace(player, decision);
+        }
+    }
+
+    protected boolean controlActualTurn(boolean actualTurn) {
+        if (lastMove == -1) return actualTurn;
+        else return !actualTurn;
+    }
+
+    public void makeSequence() {
         setAdvancedBoardSize();
-        makeSequence();
+        super.makeSequence();
     }
 }

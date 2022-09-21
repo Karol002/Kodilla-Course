@@ -6,9 +6,18 @@ public class Player {
     private String figure = "E";
     private boolean ai = false;
     private boolean winner = false;
+    private boolean moveInLastTurn = false;
 
     public Player() {
         playerNumber++;
+    }
+
+    public boolean isMoveInLastTurn() {
+        return moveInLastTurn;
+    }
+
+    public void setMoveInLastTurn(boolean moveInLastTurn) {
+        this.moveInLastTurn = moveInLastTurn;
     }
 
     public boolean isWinner() {

@@ -11,20 +11,28 @@ import java.util.Random;
 public class Game {
     protected static final Presenter presenter = new Presenter();
     protected static final Judge judge = new Judge();
-    private final List<String> gameData = new ArrayList<>();
+    private final List<String> gameBoard = new ArrayList<>();
     private final Player player1 = new Player();
     private final Player player2 = new Player();
     private boolean endGame = false;
+    boolean turn = false;
     private int boardSize = 3;
     private int strike = 3;
-    private int lastMove;
+
+    public boolean isEndGame() {
+        return endGame;
+    }
+
+    public void setEndGame(boolean endGame) {
+        this.endGame = endGame;
+    }
 
     protected void setStrike(int strike) {
         this.strike = strike;
     }
 
-    protected List<String> getGameData() {
-        return gameData;
+    protected List<String> getGameBoard() {
+        return gameBoard;
     }
 
     protected void setBoardSize(int boardSize) {
@@ -32,27 +40,8 @@ public class Game {
     }
 
     protected void loadBoard() {
-        if (!presenter.askForLoadGame()) {
-            loadNewBoard();
-        } else {
-            loadOldBoard();
-        }
-    }
-
-    protected void loadOldBoard() {
-        List<String> oldGame = presenter.askForOldGame();
-
-        if (oldGame.size() != 9) {
-            presenter.showLoadGameError();
-            loadNewBoard();
-        } else {
-            gameData.addAll(oldGame);
-        }
-    }
-
-    protected void loadNewBoard() {
         for (int i=0; i<boardSize * boardSize; i++) {
-            gameData.add(" ");
+            gameBoard.add(" ");
         }
     }
 
@@ -77,31 +66,20 @@ public class Game {
 
         if (player.isAi()) decision = random.nextInt(boardSize * boardSize);
         else decision = presenter.askForRoundMove(player, boardSize);
-
-        lastMove = decision;
-        if (decision == -1) {
-            chosePauseModeDecision();
-            return false;
-        } else {
-            return choseMovePlace(player, decision);
-        }
+        if (decision < 0) choseRoundMove(player);
+        return choseMovePlace(player, decision);
     }
 
     protected boolean choseMovePlace(Player player, int move) {
         String figure = player.getFigure();
 
         if (checkMovePossibility(move)) {
-            gameData.set(move, figure);
-            endGame = judge.checkEndGame(gameData);
-            return judge.checkWinner(gameData, player.getFigure(), boardSize);
+            gameBoard.set(move, figure);
+            endGame = judge.checkEndGame(gameBoard);
+            return judge.checkWinner(gameBoard, player.getFigure(), boardSize, strike);
         } else {
             return choseRoundMove(player);
         }
-    }
-
-    protected void chosePauseModeDecision() {
-        if (presenter.askForGamePauseModeDecision().equals("e")) endGame = true;
-        else presenter.askForSaveGame(gameData);
     }
 
     protected void makeEndGame(Player player1, Player player2) {
@@ -111,40 +89,38 @@ public class Game {
     }
 
     protected boolean checkMovePossibility(int move) {
-        return gameData.get(move).equals(" ");
+        return gameBoard.get(move).equals(" ");
     }
 
-    protected void prepareGame() {
-        presenter.showInstruction(boardSize);
+    protected void prepareGameData() {
+        presenter.showBasicInstruction(boardSize);
         setOpponentControl();
         setPlayersNames();
         setFigures();
         loadBoard();
     }
 
-    protected void makeBattle() {
-        boolean turn = false;
+    protected boolean controlActualTurn(boolean actualTurn)  {
+        return !actualTurn;
+    }
 
-        while (!endGame) {
-            presenter.showBoard(gameData, boardSize);
-            if (!turn) {
-                player1.setWinner(choseRoundMove(player1));
-                if (player1.isWinner()) {endGame = true;}
-                if (lastMove != -1) turn = true;
-            }
-            else {
-                player2.setWinner(choseRoundMove(player2));
-                if  (player2.isWinner()) {endGame = true;}
-                if (lastMove != -1) turn = false;
-            }
-            presenter.showEndRound();
+    protected void makeBattle() {
+        presenter.showBoard(gameBoard, boardSize);
+        if (!turn) {
+            player1.setWinner(choseRoundMove(player1));
+            if (player1.isWinner()) endGame = true;
+        } else {
+            player2.setWinner(choseRoundMove(player2));
+            if (player2.isWinner()) endGame = true;
         }
+        turn = controlActualTurn(turn);
+        presenter.showEndRound();
     }
 
     public void makeSequence() {
-        prepareGame();
-        makeBattle();
+        prepareGameData();
+        while (!endGame) makeBattle();
         makeEndGame(player1, player2);
-        presenter.showBoard(gameData, boardSize);
+        presenter.showBoard(gameBoard, boardSize);
     }
 }

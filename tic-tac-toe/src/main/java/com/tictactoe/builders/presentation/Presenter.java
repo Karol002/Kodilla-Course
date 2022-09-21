@@ -77,20 +77,39 @@ public class Presenter {
     public boolean askForBoardSize() {
         System.out.print("""
                 If you want to play normal game to 3 on board 3x3 press 'n'
-                If you want to play big size game to 5 on board 10x10 press 'b'""");
+                If you want to play big size game to 5 on board 10x10 press 'b': """);
         return dataConverter.setBoardSize();
     }
 
-    public void showInstruction(int size) {
-        System.out.println("""
-             Hey, here is simple instruction
-             1. If you want to enter in Save/Exit mode press 0.
-             Then
-             - If you want to save game press 's'.
-             - If you want to exit game press 'e'.
-             2. If you want to chose move place press 1-9,
-             here is places numbers""");
+    public void showBasicInstruction(int size) {
+        showBasicText();
+        showTheBoard(size);
+    }
 
+    public void showAdvancedBasicInstruction(int size) {
+        showAdvancedText();
+        showTheBoard(size);
+    }
+
+    private void showAdvancedText() {
+        System.out.println("""
+                Hey, here is simple instruction
+                1. If you want to enter in Save/Exit mode press 0.
+                Then
+                - If you want to save game press 's'.
+                - If you want to exit game press 'e'.
+                2. If you want to chose move place press 1-9,
+                here is places numbers""");
+    }
+
+     private void showBasicText() {
+        System.out.println("""
+                Hey, here is simple instruction
+                If you want to chose move place press 1-9,
+                here is places numbers""");
+    }
+
+    public void showTheBoard(int size) {
         int indexNumber = 1;
         for (int i = 0; i < size; i++) {
             System.out.print("|");
