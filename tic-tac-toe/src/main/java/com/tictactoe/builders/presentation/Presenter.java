@@ -1,6 +1,6 @@
 package com.tictactoe.builders.presentation;
 
-import com.tictactoe.builders.logic.Player;
+import com.tictactoe.builders.ingredients.Player;
 
 import java.util.List;
 
@@ -49,9 +49,9 @@ public class Presenter {
         return dataConverter.getNewGameDecision();
     }
 
-    public int askForRoundMove(Player player){
+    public int askForRoundMove(Player player, int size){
         System.out.print("Enter your move " + player.getName() + ": ");
-        return dataConverter.getRoundMove() - 1;
+        return dataConverter.getRoundMove(size) - 1;
     }
 
     public String askForGamePauseModeDecision() {
@@ -72,6 +72,13 @@ public class Presenter {
         System.out.println("Saving the game");
         if (dataConverter.saveGame(thGame)) System.out.println("Save successful");
         else System.out.println("Save error");
+    }
+
+    public boolean askForBoardSize() {
+        System.out.print("""
+                If you want to play normal game to 3 on board 3x3 press 'n'
+                If you want to play big size game to 5 on board 10x10 press 'b'""");
+        return dataConverter.setBoardSize();
     }
 
     public void showInstruction(int size) {

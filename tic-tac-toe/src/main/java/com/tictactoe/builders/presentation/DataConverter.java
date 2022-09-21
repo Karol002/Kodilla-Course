@@ -10,7 +10,7 @@ import java.util.*;
 public class DataConverter {
     private final Scanner scan = new Scanner(System.in);
 
-    public int getRoundMove() {
+    public int getRoundMove(int size) {
         int userInput = 10;
 
         try {
@@ -18,9 +18,9 @@ public class DataConverter {
         } catch (InputMismatchException e) {
             scan.nextLine();
         } finally {
-            if (userInput < 0 || userInput > 9) {
+            if (userInput < 0 || userInput > size * size) {
                 System.out.print("Incorrect data try again: ");
-                userInput = getRoundMove();
+                userInput = getRoundMove(size);
             }
         }
         return userInput;
@@ -103,6 +103,16 @@ public class DataConverter {
             saveSuccessful = false;
         }
         return saveSuccessful;
+    }
+
+    public boolean setBoardSize() {
+        String chose = scan.next();
+
+        while (!(chose.equals("b") || chose.equals("n"))) {
+            System.out.println("Incorrect data try again: ");
+            setBoardSize();
+        }
+        return  chose.equals("b");
     }
 
     public String askForName() {

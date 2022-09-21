@@ -1,4 +1,4 @@
-package com.tictactoe.builders.logic;
+package com.tictactoe.builders.ingredients;
 
 public class Player {
     private static int playerNumber = 1;

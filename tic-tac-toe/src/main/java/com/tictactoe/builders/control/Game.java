@@ -1,5 +1,7 @@
-package com.tictactoe.builders.logic;
+package com.tictactoe.builders.control;
 
+import com.tictactoe.builders.ingredients.Judge;
+import com.tictactoe.builders.ingredients.Player;
 import com.tictactoe.builders.presentation.Presenter;
 
 import java.util.ArrayList;
@@ -7,20 +9,29 @@ import java.util.List;
 import java.util.Random;
 
 public class Game {
+    protected static final Presenter presenter = new Presenter();
+    protected static final Judge judge = new Judge();
     private final List<String> gameData = new ArrayList<>();
     private final Player player1 = new Player();
     private final Player player2 = new Player();
-    private final Presenter presenter = new Presenter();
-    private final Judge judge = new Judge();
-    private final int boardSize;
     private boolean endGame = false;
+    private int boardSize = 3;
+    private int strike = 3;
     private int lastMove;
 
-    public Game(int boardSize) {
+    protected void setStrike(int strike) {
+        this.strike = strike;
+    }
+
+    protected List<String> getGameData() {
+        return gameData;
+    }
+
+    protected void setBoardSize(int boardSize) {
         this.boardSize = boardSize;
     }
 
-    private void loadBoard() {
+    protected void loadBoard() {
         if (!presenter.askForLoadGame()) {
             loadNewBoard();
         } else {
@@ -28,7 +39,7 @@ public class Game {
         }
     }
 
-    private void loadOldBoard() {
+    protected void loadOldBoard() {
         List<String> oldGame = presenter.askForOldGame();
 
         if (oldGame.size() != 9) {
@@ -39,33 +50,33 @@ public class Game {
         }
     }
 
-    private void loadNewBoard() {
+    protected void loadNewBoard() {
         for (int i=0; i<boardSize * boardSize; i++) {
             gameData.add(" ");
         }
     }
 
-    private void setOpponentControl() {
+    protected void setOpponentControl() {
         player2.setAi(presenter.askForOpponentControl());
     }
 
-    private void setPlayersNames() {
+    protected void setPlayersNames() {
         player1.setName(presenter.askForName(1));
         if (player2.isAi()) player2.setName("Computer");
         else player2.setName(presenter.askForName(2));
     }
 
-    private void setFigures() {
+    protected void setFigures() {
         player1.setFigure("O");
         player2.setFigure("X");
     }
 
-    private boolean choseRoundMove(Player player) {
+    protected boolean choseRoundMove(Player player) {
         int decision;
         Random random = new Random();
 
-        if (player.isAi()) decision = random.nextInt(9);
-        else decision = presenter.askForRoundMove(player);
+        if (player.isAi()) decision = random.nextInt(boardSize * boardSize);
+        else decision = presenter.askForRoundMove(player, boardSize);
 
         lastMove = decision;
         if (decision == -1) {
@@ -76,34 +87,34 @@ public class Game {
         }
     }
 
-    private boolean choseMovePlace(Player player, int move) {
+    protected boolean choseMovePlace(Player player, int move) {
         String figure = player.getFigure();
 
         if (checkMovePossibility(move)) {
             gameData.set(move, figure);
             endGame = judge.checkEndGame(gameData);
-            return judge.checkWinner(gameData, player, boardSize);
+            return judge.checkWinner(gameData, player.getFigure(), boardSize);
         } else {
             return choseRoundMove(player);
         }
     }
 
-    private void chosePauseModeDecision() {
+    protected void chosePauseModeDecision() {
         if (presenter.askForGamePauseModeDecision().equals("e")) endGame = true;
         else presenter.askForSaveGame(gameData);
     }
 
-    private void makeEndGame(Player player1, Player player2) {
+    protected void makeEndGame(Player player1, Player player2) {
         if (player1.isWinner()) presenter.showWinner(player1);
         else if (player2.isWinner()) presenter.showWinner(player2);
         else presenter.showDrawResult();
     }
 
-    private boolean checkMovePossibility(int move) {
+    protected boolean checkMovePossibility(int move) {
         return gameData.get(move).equals(" ");
     }
 
-    private void prepareGame() {
+    protected void prepareGame() {
         presenter.showInstruction(boardSize);
         setOpponentControl();
         setPlayersNames();
@@ -111,9 +122,8 @@ public class Game {
         loadBoard();
     }
 
-    public void makeSequence() {
+    protected void makeBattle() {
         boolean turn = false;
-        prepareGame();
 
         while (!endGame) {
             presenter.showBoard(gameData, boardSize);
@@ -129,8 +139,12 @@ public class Game {
             }
             presenter.showEndRound();
         }
+    }
+
+    public void makeSequence() {
+        prepareGame();
+        makeBattle();
         makeEndGame(player1, player2);
         presenter.showBoard(gameData, boardSize);
     }
-
 }
