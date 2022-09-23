@@ -15,7 +15,7 @@ public class Game {
     private final Player player1 = new Player();
     private final Player player2 = new Player();
     private boolean endGame = false;
-    boolean turn = false;
+    private boolean turn = false;
     private int boardSize = 3;
     private int strike = 3;
 
@@ -39,10 +39,8 @@ public class Game {
         this.boardSize = boardSize;
     }
 
-    protected void loadBoard() {
-        for (int i=0; i<boardSize * boardSize; i++) {
-            gameBoard.add(" ");
-        }
+    protected int getBoardSize() {
+        return boardSize;
     }
 
     protected void setOpponentControl() {
@@ -58,6 +56,12 @@ public class Game {
     protected void setFigures() {
         player1.setFigure("O");
         player2.setFigure("X");
+    }
+
+    protected void loadBoard() {
+        for (int i=0; i<boardSize * boardSize; i++) {
+            gameBoard.add(" ");
+        }
     }
 
     protected boolean choseRoundMove(Player player) {

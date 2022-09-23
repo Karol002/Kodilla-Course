@@ -56,20 +56,17 @@ public class DataConverter {
         return userInput;
     }
 
-    public List<String> loadGame() {
+    public List<String> loadGame(String path) {
         ArrayList<String> oldGame = new ArrayList<>();
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource("OldGame.txt")).getFile());
-        Path path = Paths.get(file.getPath());
+        File file = new File(path);
 
-        try{
-            Scanner scanner = new Scanner(path);
-            while(scanner.hasNextLine()) {
-                oldGame.add(scanner.nextLine());
-            }
+        try {
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) oldGame.add(scanner.nextLine());
         } catch (IOException e) {
-            System.out.println("File not found");
+            System.out.println("Loading error");
         }
+
         return convertOldGameData(oldGame);
     }
 
@@ -89,11 +86,11 @@ public class DataConverter {
         return convertGame;
     }
 
-    public boolean saveGame(List<String> theGame) {
+    public boolean saveGame(List<String> theGame, String path) {
         boolean saveSuccessful = true;
 
         try {
-            FileWriter writer = new FileWriter("/home/karol/GitHub/kodilla-course/tic-tac-toe/src/main/resources/OldGame.txt");
+            FileWriter writer = new FileWriter(path);
             for (String thePlace : theGame) {
                 if (thePlace.equals(" ")) writer.write(".\n");
                 else writer.write(thePlace + "\n");
@@ -105,14 +102,14 @@ public class DataConverter {
         return saveSuccessful;
     }
 
-    public boolean setBoardSize() {
+    public String setBoardSize() {
         String chose = scan.next();
 
         while (!(chose.equals("b") || chose.equals("n"))) {
             System.out.println("Incorrect data try again: ");
-            setBoardSize();
+            chose = setBoardSize();
         }
-        return  chose.equals("b");
+        return  chose;
     }
 
     public String askForName() {

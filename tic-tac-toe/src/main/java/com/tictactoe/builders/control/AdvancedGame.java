@@ -6,23 +6,27 @@ import java.util.List;
 import java.util.Random;
 
 public class AdvancedGame extends Game {
+    private String path;
     private int lastMove;
-    private boolean isAdvanced;
+    private int pauseValue = -1;
 
     protected void setAdvancedBoardSize() {
-        isAdvanced = presenter.askForBoardSize();
+        boolean isAdvanced = (presenter.askForBoardSize().equals("b"));
         if (isAdvanced) {
             setBoardSize(10);
             setStrike(5);
+            path = "/home/karol/GitHub/kodilla-course/tic-tac-toe/src/main/resources/OldGameTo5.txt";
+
         } else {
             setBoardSize(3);
             setStrike(3);
+            path = "/home/karol/GitHub/kodilla-course/tic-tac-toe/src/main/resources/OldGameTo3.txt";
         }
     }
 
     protected void chosePauseModeDecision() {
         if (presenter.askForGamePauseModeDecision().equals("e")) setEndGame(true);
-        else presenter.askForSaveGame(getGameBoard());
+        else presenter.askForSaveGame(getGameBoard(), path);
     }
 
     protected void loadBoard() {
@@ -34,25 +38,25 @@ public class AdvancedGame extends Game {
     }
 
     protected void loadOldBoard() {
-        List<String> oldGame = presenter.askForOldGame();
+        List<String> oldGame = presenter.askForOldGame(path);
 
-        if (oldGame.size() != 9) {
+        if (oldGame.size() != getBoardSize() * getBoardSize()) {
             presenter.showLoadGameError();
-            this.loadBoard();
+            super.loadBoard();
         } else {
             getGameBoard().addAll(oldGame);
         }
     }
 
-    protected boolean choseAdvancedRoundMove(Player player) {
+    protected boolean choseRoundMove(Player player) {
         int decision;
         Random random = new Random();
 
-        if (player.isAi()) decision = random.nextInt(getGameBoard().size() * getGameBoard().size());
-        else decision = presenter.askForRoundMove(player, getGameBoard().size());
+        if (player.isAi()) decision = random.nextInt(getGameBoard().size());
+        else decision = presenter.askForRoundMove(player, getBoardSize());
 
         lastMove = decision;
-        if (decision == -1) {
+        if (decision == pauseValue) {
             chosePauseModeDecision();
             return false;
         } else {
@@ -61,7 +65,7 @@ public class AdvancedGame extends Game {
     }
 
     protected boolean controlActualTurn(boolean actualTurn) {
-        if (lastMove == -1) return actualTurn;
+        if (lastMove == pauseValue) return actualTurn;
         else return !actualTurn;
     }
 

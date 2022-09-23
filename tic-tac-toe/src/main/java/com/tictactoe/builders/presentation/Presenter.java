@@ -59,22 +59,22 @@ public class Presenter {
         return dataConverter.getGamePauseModeDecision();
     }
 
-    public List<String> askForOldGame() {
+    public List<String> askForOldGame(String path) {
         System.out.println("Loading the game");
-        return dataConverter.loadGame();
+        return dataConverter.loadGame(path);
     }
 
     public void showLoadGameError() {
         System.out.println("Invalid old game data. Starting new Game");
     }
 
-    public void askForSaveGame(List<String> thGame) {
+    public void askForSaveGame(List<String> thGame, String path) {
         System.out.println("Saving the game");
-        if (dataConverter.saveGame(thGame)) System.out.println("Save successful");
+        if (dataConverter.saveGame(thGame, path)) System.out.println("Save successful");
         else System.out.println("Save error");
     }
 
-    public boolean askForBoardSize() {
+    public String askForBoardSize() {
         System.out.print("""
                 If you want to play normal game to 3 on board 3x3 press 'n'
                 If you want to play big size game to 5 on board 10x10 press 'b': """);
