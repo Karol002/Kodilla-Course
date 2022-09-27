@@ -10,15 +10,15 @@ public class AdvancedGame extends Game {
     private int lastMove;
     private int pauseValue = -1;
 
-    protected void setAdvancedBoardSize() {
+    protected void setAdvancedRowSize() {
         boolean isAdvanced = (presenter.askForBoardSize().equals("b"));
         if (isAdvanced) {
-            setBoardSize(10);
+            setRowSize(10);
             setStrike(5);
             path = "/home/karol/GitHub/kodilla-course/tic-tac-toe/src/main/resources/OldGameTo5.txt";
 
         } else {
-            setBoardSize(3);
+            setRowSize(3);
             setStrike(3);
             path = "/home/karol/GitHub/kodilla-course/tic-tac-toe/src/main/resources/OldGameTo3.txt";
         }
@@ -40,7 +40,7 @@ public class AdvancedGame extends Game {
     protected void loadOldBoard() {
         List<String> oldGame = presenter.askForOldGame(path);
 
-        if (oldGame.size() != getBoardSize() * getBoardSize()) {
+        if (oldGame.size() != getRowSize() * getRowSize()) {
             presenter.showLoadGameError();
             super.loadBoard();
         } else {
@@ -53,7 +53,7 @@ public class AdvancedGame extends Game {
         Random random = new Random();
 
         if (player.isAi()) decision = random.nextInt(getGameBoard().size());
-        else decision = presenter.askForRoundMove(player, getBoardSize());
+        else decision = presenter.askForRoundMove(player, getRowSize());
 
         lastMove = decision;
         if (decision == pauseValue) {
@@ -70,7 +70,7 @@ public class AdvancedGame extends Game {
     }
 
     public void makeSequence() {
-        setAdvancedBoardSize();
+        setAdvancedRowSize();
         super.makeSequence();
     }
 }

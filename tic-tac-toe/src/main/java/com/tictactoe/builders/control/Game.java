@@ -16,7 +16,7 @@ public class Game {
     private final Player player2 = new Player();
     private boolean endGame = false;
     private boolean turn = false;
-    private int boardSize = 3;
+    private int rowSize = 3;
     private int strike = 3;
 
     public boolean isEndGame() {
@@ -35,12 +35,12 @@ public class Game {
         return gameBoard;
     }
 
-    protected void setBoardSize(int boardSize) {
-        this.boardSize = boardSize;
+    protected void setRowSize(int rowSize) {
+        this.rowSize = rowSize;
     }
 
-    protected int getBoardSize() {
-        return boardSize;
+    protected int getRowSize() {
+        return rowSize;
     }
 
     protected void setOpponentControl() {
@@ -59,7 +59,7 @@ public class Game {
     }
 
     protected void loadBoard() {
-        for (int i=0; i<boardSize * boardSize; i++) {
+        for (int i = 0; i< rowSize * rowSize; i++) {
             gameBoard.add(" ");
         }
     }
@@ -68,8 +68,8 @@ public class Game {
         int decision;
         Random random = new Random();
 
-        if (player.isAi()) decision = random.nextInt(boardSize * boardSize);
-        else decision = presenter.askForRoundMove(player, boardSize);
+        if (player.isAi()) decision = random.nextInt(rowSize * rowSize);
+        else decision = presenter.askForRoundMove(player, rowSize);
         if (decision < 0) choseRoundMove(player);
         return choseMovePlace(player, decision);
     }
@@ -80,7 +80,7 @@ public class Game {
         if (checkMovePossibility(move)) {
             gameBoard.set(move, figure);
             endGame = judge.checkEndGame(gameBoard);
-            return judge.checkWinner(gameBoard, player.getFigure(), boardSize, strike);
+            return judge.checkWinner(gameBoard, player.getFigure(), rowSize, strike);
         } else {
             return choseRoundMove(player);
         }
@@ -97,7 +97,7 @@ public class Game {
     }
 
     protected void prepareGameData() {
-        presenter.showBasicInstruction(boardSize);
+        presenter.showBasicInstruction(rowSize);
         setOpponentControl();
         setPlayersNames();
         setFigures();
@@ -109,7 +109,7 @@ public class Game {
     }
 
     protected void makeBattle() {
-        presenter.showBoard(gameBoard, boardSize);
+        presenter.showBoard(gameBoard, rowSize);
         if (!turn) {
             player1.setWinner(choseRoundMove(player1));
             if (player1.isWinner()) endGame = true;
@@ -125,6 +125,6 @@ public class Game {
         prepareGameData();
         while (!endGame) makeBattle();
         makeEndGame(player1, player2);
-        presenter.showBoard(gameBoard, boardSize);
+        presenter.showBoard(gameBoard, rowSize);
     }
 }

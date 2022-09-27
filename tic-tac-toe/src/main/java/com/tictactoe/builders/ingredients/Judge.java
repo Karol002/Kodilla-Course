@@ -4,99 +4,72 @@ import java.util.List;
 
 public class Judge {
 
-    public boolean checkWinnerTo3(List <String> gameData, Player player, int size){
-        String figure = player.getFigure();
+    public boolean checkWinner(List <String> gameData, String figure, int rowSize, int strike){
         boolean isWinner = false;
 
-        for (int i=0; i<gameData.size(); i+=size) {
-            isWinner = true;
-            for (int j=0; j<size; j++) {
-                if (!(gameData.get(j+i).equals(figure))) isWinner = false;
-            }
+        isWinner = checkInitialWinner(gameData, figure, rowSize, strike);
+        if (!isWinner) isWinner = checkColumnWinner(gameData, figure, rowSize, strike);
+        if (!isWinner) isWinner = checkRowWinner(gameData, figure, rowSize, strike);
+
+        return isWinner;
+    }
+
+    private boolean checkInitialWinner(List <String> gameData, String figure, int rowSize, int strike) {
+        boolean isWinner = true;
+        int figuresStrike = 0;
+
+        for (int i=0; i<gameData.size(); i+=rowSize+1) {
+            if (!(gameData.get(i).equals(figure))) figuresStrike = 0;
+            else figuresStrike++;
+            isWinner = figuresStrike >= strike;
             if (isWinner) break;
         }
 
+
         if (!isWinner) {
-            for (int i=0; i<size; i++) {
-                isWinner = true;
-                for (int j=0; j<gameData.size(); j+=size) {
-                    if (!(gameData.get(j+i).equals(figure))) isWinner = false;
-                }
+            for (int i=rowSize-1; i<gameData.size(); i+=rowSize-1) {
+                if (!(gameData.get(i).equals(figure))) figuresStrike = 0;
+                else figuresStrike++;
+                isWinner = figuresStrike >= strike;
                 if (isWinner) break;
-            }
-        }
-
-        if (!isWinner) {
-            isWinner = true;
-            for (int i=0; i<gameData.size(); i+=size+1) {
-                if (!(gameData.get(i).equals(figure))) {
-                    isWinner = false;
-                    break;
-                }
-            }
-        }
-
-        if (!isWinner) {
-            isWinner = true;
-            for (int i=size-1; i<gameData.size(); i+=size-1) {
-                if (!(gameData.get(i).equals(figure))) {
-                    isWinner = false;
-                    break;
-                }
             }
         }
 
         return isWinner;
     }
 
-    public boolean checkWinner(List <String> gameData, String figure, int size, int strike){
+    private boolean checkColumnWinner(List <String> gameData, String figure, int rowSize, int strike) {
         boolean isWinner = false;
         int figuresStrike = 0;
 
-        for (int i=0; i<gameData.size(); i+=size) {
+        for (int i=0; i<rowSize; i++) {
             isWinner = true;
-            for (int j=0; j<size; j++) {
+            for (int j=0; j<gameData.size(); j+=rowSize) {
                 if (!(gameData.get(j+i).equals(figure))) figuresStrike = 0;
                 else figuresStrike++;
-                if (figuresStrike > (size/2)-1) break;
+                if (figuresStrike > strike) break;
             }
             if (figuresStrike < strike) isWinner = false;
             if (isWinner) break;
         }
 
-        if (!isWinner) {
-            for (int i=0; i<size; i++) {
-                isWinner = true;
-                for (int j=0; j<gameData.size(); j+=size) {
-                    if (!(gameData.get(j+i).equals(figure))) figuresStrike = 0;
-                    else figuresStrike++;
-                    if (figuresStrike > (size/2)-1) break;
-                }
-                if (figuresStrike < strike) isWinner = false;
-                if (isWinner) break;
-            }
-        }
+        return isWinner;
+    }
 
-        if (!isWinner) {
+    private boolean checkRowWinner(List <String> gameData, String figure, int rowSize, int strike) {
+        boolean isWinner = false;
+        int figuresStrike = 0;
+
+        for (int i=0; i<gameData.size(); i+=rowSize) {
             isWinner = true;
-            for (int i=0; i<gameData.size(); i+=size+1) {
-                if (!(gameData.get(i).equals(figure))) figuresStrike = 0;
+            for (int j=0; j<rowSize; j++) {
+                if (!(gameData.get(j+i).equals(figure))) figuresStrike = 0;
                 else figuresStrike++;
-                isWinner = figuresStrike >= strike;
-                if (isWinner) break;
+                if (figuresStrike > strike) break;
             }
+            if (figuresStrike < strike) isWinner = false;
+            if (isWinner) break;
         }
-
-        if (!isWinner) {
-            isWinner = true;
-            for (int i=size-1; i<gameData.size(); i+=size-1) {
-                if (!(gameData.get(i).equals(figure))) figuresStrike = 0;
-                else figuresStrike++;
-                isWinner = figuresStrike >= strike;
-                if (isWinner) break;
-            }
-        }
-
         return isWinner;
     }
 

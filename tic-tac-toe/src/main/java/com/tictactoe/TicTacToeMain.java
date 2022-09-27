@@ -2,7 +2,6 @@ package com.tictactoe;
 
 
 import com.tictactoe.builders.control.AdvancedGame;
-import com.tictactoe.builders.control.Game;
 
 
 public class TicTacToeMain {
