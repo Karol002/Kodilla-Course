@@ -214,8 +214,6 @@ public class TicTacToeTestSuite {
             Player player1 = new Player();
             Player player2 = new Player();
             List<String> row = emptyBoardGenerator();
-            int strike = 3;
-            int rowSize = 3;
 
             //When
             player1.setFigure("O");
