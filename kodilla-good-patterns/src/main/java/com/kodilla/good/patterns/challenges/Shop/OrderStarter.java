@@ -1,6 +1,6 @@
 package com.kodilla.good.patterns.challenges.Shop;
 
-import com.kodilla.good.patterns.challenges.Interfaces.OrderService;
+import com.kodilla.good.patterns.challenges.Shop.Interfaces.OrderService;
 
 public class OrderStarter implements OrderService {
 

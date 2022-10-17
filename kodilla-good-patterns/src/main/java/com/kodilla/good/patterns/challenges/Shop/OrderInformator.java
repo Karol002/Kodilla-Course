@@ -1,6 +1,6 @@
 package com.kodilla.good.patterns.challenges.Shop;
 
-import com.kodilla.good.patterns.challenges.Interfaces.InformationService;
+import com.kodilla.good.patterns.challenges.Shop.Interfaces.InformationService;
 
 public class OrderInformator implements InformationService {
 

@@ -1,6 +1,6 @@
 package com.kodilla.good.patterns.challenges.Shop;
 
-import com.kodilla.good.patterns.challenges.Interfaces.PaymentService;
+import com.kodilla.good.patterns.challenges.Shop.Interfaces.PaymentService;
 
 public class OrderPayer implements PaymentService {
 

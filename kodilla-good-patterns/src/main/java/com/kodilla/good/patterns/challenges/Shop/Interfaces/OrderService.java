@@ -1,4 +1,4 @@
-package com.kodilla.good.patterns.challenges.Interfaces;
+package com.kodilla.good.patterns.challenges.Shop.Interfaces;
 
 import com.kodilla.good.patterns.challenges.Shop.Order;
 import com.kodilla.good.patterns.challenges.Shop.User;
