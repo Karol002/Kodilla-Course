@@ -1,13 +1,16 @@
 package com.kodilla.good.patterns.challenges;
 
+import com.kodilla.good.patterns.challenges.Shop.OrderInformator;
+import com.kodilla.good.patterns.challenges.Shop.OrderStarter;
+import com.kodilla.good.patterns.challenges.Shop.OrderPayer;
 import com.kodilla.good.patterns.challenges.Shop.*;
 
 public class ProductOrderService {
-    private final PaymentService paymentService;
-    private final InformationService informationService;
-    private final OrderService orderService;
+    private final OrderPayer paymentService;
+    private final OrderInformator informationService;
+    private final OrderStarter orderService;
 
-    public ProductOrderService(PaymentService paymentService, InformationService informationService, OrderService orderService) {
+    public ProductOrderService(OrderPayer paymentService, OrderInformator informationService, OrderStarter orderService) {
         this.paymentService = paymentService;
         this.informationService = informationService;
         this.orderService = orderService;
