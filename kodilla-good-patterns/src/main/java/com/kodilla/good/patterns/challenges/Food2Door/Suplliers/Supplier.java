@@ -13,14 +13,6 @@ public abstract class Supplier {
         this.productPrice = productPrice;
     }
 
-    public String getSupplierName() {
-        return supplierName;
-    }
-
-    public String getProduct() {
-        return product;
-    }
-
     public double getProductPrice() {
         return productPrice;
     }
