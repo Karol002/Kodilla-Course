@@ -37,23 +37,28 @@ public class FlightSearchEngine implements SearchEngine {
     }
 
     @Override
-    public List<FlightDto> advancedSearch(String base, String destination, String middle) {
-        List<FlightDto> foundFlights = new ArrayList<>();
-        Flight startingFlight = new Flight(base, middle);
-        Flight finishFlight = new Flight(middle, destination);
+    public List<Flight> search(String base, String destination) {
+        List<Flight> foundFlights = new ArrayList<>();
+        Flight lookingFlight = new Flight(base, destination);
 
         for (Flight flight : flightList) {
-            if (flight.equals(startingFlight)) {
-                for (Flight anotherFlight : flightList) {
-                    if (flight.equals(finishFlight)) foundFlights.add(new FlightDto(flight, anotherFlight));
-                }
-            }
+            if (flight.equals(lookingFlight)) foundFlights.add(flight);
         }
 
         return foundFlights;
     }
 
-    public List<Flight> getFlightList() {
-        return flightList;
+    @Override
+    public List<FlightDto> advancedSearch(String base, String destination) {
+        List<FlightDto> foundFlights = new ArrayList<>();
+
+        for (Flight startFlight : flightList) {
+            if (startFlight.getBaseLocation().equals(base)) {
+                for (Flight finishFlight : flightList) {
+                    if (finishFlight.getDestination().equals(destination)) foundFlights.add(new FlightDto(startFlight, finishFlight));
+                }
+            }
+        }
+        return foundFlights;
     }
 }

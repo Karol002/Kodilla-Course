@@ -1,7 +1,5 @@
 package com.kodilla.good.patterns.challenges.Flights.builders;
 
-import com.kodilla.good.patterns.challenges.Flights.builders.Flight;
-
 public class FlightDto {
     private final Flight startFlight;
     private final Flight finishFlight;
@@ -21,9 +19,7 @@ public class FlightDto {
 
     @Override
     public String toString() {
-        return "FlightDto{" +
-                "startFlight=" + startFlight +
-                ", finishFlight=" + finishFlight +
-                '}';
+        return "startFlight=" + startFlight + "\n" +
+                "finishFlight=" + finishFlight;
     }
 }

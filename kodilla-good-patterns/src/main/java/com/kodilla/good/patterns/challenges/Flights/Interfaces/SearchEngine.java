@@ -5,5 +5,6 @@ import java.util.List;
 public interface SearchEngine {
     List searchFrom(String base);
     List searchTo(String destination);
-    List advancedSearch(String base, String destination, String middle);
+    List search(String base, String destination);
+    List advancedSearch(String base, String destination);
 }

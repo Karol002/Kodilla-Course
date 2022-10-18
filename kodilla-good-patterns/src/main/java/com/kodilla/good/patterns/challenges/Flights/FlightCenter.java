@@ -1,5 +1,8 @@
 package com.kodilla.good.patterns.challenges.Flights;
 
+import com.kodilla.good.patterns.challenges.Flights.builders.Flight;
+import com.kodilla.good.patterns.challenges.Flights.builders.FlightDto;
+
 import java.util.List;
 
 public class FlightCenter {
@@ -13,15 +16,26 @@ public class FlightCenter {
         this.cityList = cityList;
     }
 
-    private int startPlaceRequest() {
-        return flightUserService.choseCity("Chose your start city") - 1;
+    public void sequence() {
+        flightUserService.showAvailableCities();
+        int chose = flightUserService.choseSearchMode();
+
+        if (chose == 1) {
+            int city = flightUserService.choseCity("For which you want to see all flight ") - 1;
+            cityFlightInformation(cityList.get(city));
+
+        } else {
+            int startCity = flightUserService.choseCity("Chose your start city") - 1;
+            int finishCity = flightUserService.choseCity("Chose your finish city") - 1;
+            List<FlightDto> flightDtoList = flightSearchEngine.advancedSearch(cityList.get(startCity), cityList.get(finishCity));
+            List<Flight> flightList = flightSearchEngine.search(cityList.get(startCity), cityList.get(finishCity));
+
+        }
     }
 
-    private int finishPlaceRequest() {
-        return flightUserService.choseCity("Chose your finish city") - 1;
-    }
-
-    private int throughPlaceRequest() {
-        return flightUserService.choseCity("Chose your through city") - 1;
+    private void cityFlightInformation(String city) {
+        List<Flight> cityFlightList = flightSearchEngine.searchFrom(city);
+        cityFlightList.addAll(flightSearchEngine.searchTo(city));
+        cityFlightList.stream().forEach(System.out::println);
     }
 }
