@@ -1,8 +1,10 @@
-package com.kodilla.good.patterns.challenges.Shop;
+package com.kodilla.good.patterns.challenges.Shop.OrderLogic;
 
+import com.kodilla.good.patterns.challenges.Shop.Builders.Order;
+import com.kodilla.good.patterns.challenges.Shop.Builders.User;
 import com.kodilla.good.patterns.challenges.Shop.Interfaces.InformationService;
 
-public class OrderInformator implements InformationService {
+public class ShopInformationService implements InformationService {
 
     @Override
     public void informUser(User user, Order order) {

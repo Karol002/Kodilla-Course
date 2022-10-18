@@ -1,6 +1,4 @@
-package com.kodilla.good.patterns.challenges.Food2Door.Suplliers;
-
-import com.kodilla.good.patterns.challenges.Food2Door.OrderDto;
+package com.kodilla.good.patterns.challenges.Food2Door.builders;
 
 public class GlutenFreeShop extends Supplier{
 

@@ -1,16 +1,17 @@
-package com.kodilla.good.patterns.challenges;
+package com.kodilla.good.patterns.challenges.Shop;
 
-import com.kodilla.good.patterns.challenges.Shop.OrderInformator;
-import com.kodilla.good.patterns.challenges.Shop.OrderStarter;
-import com.kodilla.good.patterns.challenges.Shop.OrderPayer;
-import com.kodilla.good.patterns.challenges.Shop.*;
+import com.kodilla.good.patterns.challenges.Shop.OrderCreators.OrderDto;
+import com.kodilla.good.patterns.challenges.Shop.OrderCreators.OrderRequest;
+import com.kodilla.good.patterns.challenges.Shop.OrderLogic.ShopInformationService;
+import com.kodilla.good.patterns.challenges.Shop.OrderLogic.ShopOrderService;
+import com.kodilla.good.patterns.challenges.Shop.OrderLogic.ShopPaymentService;
 
 public class ProductOrderService {
-    private final OrderPayer paymentService;
-    private final OrderInformator informationService;
-    private final OrderStarter orderService;
+    private final ShopPaymentService paymentService;
+    private final ShopInformationService informationService;
+    private final ShopOrderService orderService;
 
-    public ProductOrderService(OrderPayer paymentService, OrderInformator informationService, OrderStarter orderService) {
+    public ProductOrderService(ShopPaymentService paymentService, ShopInformationService informationService, ShopOrderService orderService) {
         this.paymentService = paymentService;
         this.informationService = informationService;
         this.orderService = orderService;

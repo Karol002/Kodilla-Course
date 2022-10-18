@@ -1,4 +1,6 @@
-package com.kodilla.good.patterns.challenges.Shop;
+package com.kodilla.good.patterns.challenges.Shop.Builders;
+
+import com.kodilla.good.patterns.challenges.Shop.Builders.Item;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

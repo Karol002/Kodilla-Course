@@ -1,7 +1,7 @@
 package com.kodilla.good.patterns.challenges.Shop.Interfaces;
 
-import com.kodilla.good.patterns.challenges.Shop.Order;
-import com.kodilla.good.patterns.challenges.Shop.User;
+import com.kodilla.good.patterns.challenges.Shop.Builders.Order;
+import com.kodilla.good.patterns.challenges.Shop.Builders.User;
 
 public interface OrderService {
 

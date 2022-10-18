@@ -1,4 +1,4 @@
-package com.kodilla.good.patterns.challenges.Food2Door.Suplliers;
+package com.kodilla.good.patterns.challenges.Food2Door.builders;
 
 import java.util.ArrayList;
 import java.util.List;

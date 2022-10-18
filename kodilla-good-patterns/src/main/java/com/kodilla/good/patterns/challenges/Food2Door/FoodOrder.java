@@ -1,14 +1,15 @@
 package com.kodilla.good.patterns.challenges.Food2Door;
 
-import com.kodilla.good.patterns.challenges.Food2Door.Suplliers.Supplier;
+import com.kodilla.good.patterns.challenges.Food2Door.builders.Supplier;
+import com.kodilla.good.patterns.challenges.Food2Door.builders.OrderDto;
 
 import java.util.List;
 
 public class FoodOrder {
     private final List<Supplier> suppliers;
-    private final UserService userInterface;
+    private final FoodUserService userInterface;
 
-    public FoodOrder(List<Supplier> suppliers, UserService userInterface) {
+    public FoodOrder(List<Supplier> suppliers, FoodUserService userInterface) {
         this.suppliers = suppliers;
         this.userInterface = userInterface;
     }

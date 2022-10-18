@@ -1,11 +1,12 @@
 package com.kodilla.good.patterns.challenges.Food2Door;
 
-import com.kodilla.good.patterns.challenges.Food2Door.Suplliers.Supplier;
+import com.kodilla.good.patterns.challenges.Food2Door.builders.OrderDto;
+import com.kodilla.good.patterns.challenges.Food2Door.builders.Supplier;
 
 import java.util.List;
 import java.util.Scanner;
 
-public class UserService {
+public class FoodUserService {
     private final Scanner scanner = new Scanner(System.in);
 
     public void showShopInformation(List<Supplier> suppliers) {

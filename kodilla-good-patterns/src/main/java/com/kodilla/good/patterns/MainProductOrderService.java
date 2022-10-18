@@ -1,10 +1,11 @@
 package com.kodilla.good.patterns;
 
-import com.kodilla.good.patterns.challenges.Shop.OrderInformator;
-import com.kodilla.good.patterns.challenges.Shop.OrderStarter;
-import com.kodilla.good.patterns.challenges.Shop.OrderPayer;
-import com.kodilla.good.patterns.challenges.ProductOrderService;
-import com.kodilla.good.patterns.challenges.Shop.*;
+import com.kodilla.good.patterns.challenges.Shop.OrderCreators.OrderRequest;
+import com.kodilla.good.patterns.challenges.Shop.OrderCreators.OrderRequestRetriever;
+import com.kodilla.good.patterns.challenges.Shop.OrderLogic.ShopInformationService;
+import com.kodilla.good.patterns.challenges.Shop.OrderLogic.ShopOrderService;
+import com.kodilla.good.patterns.challenges.Shop.OrderLogic.ShopPaymentService;
+import com.kodilla.good.patterns.challenges.Shop.ProductOrderService;
 
 public class MainProductOrderService {
 
@@ -13,7 +14,7 @@ public class MainProductOrderService {
         OrderRequest orderRequest = orderRequestRetriever.retrieve();
 
         ProductOrderService productOrderService = new ProductOrderService
-                (new OrderPayer(), new OrderInformator(), new OrderStarter());
+                (new ShopPaymentService(), new ShopInformationService(), new ShopOrderService());
 
         productOrderService.process(orderRequest);
     }
