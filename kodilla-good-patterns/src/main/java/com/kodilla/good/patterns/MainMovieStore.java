@@ -1,6 +1,6 @@
 package com.kodilla.good.patterns;
 
-import com.kodilla.good.patterns.challenges.MovieStore.MovieStore;
+import com.kodilla.good.patterns.challenges.moviestore.MovieStore;
 
 import java.util.stream.Collectors;
 

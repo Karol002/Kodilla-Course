@@ -1,8 +1,8 @@
 package com.kodilla.good.patterns;
 
-import com.kodilla.good.patterns.challenges.Food2Door.FoodOrder;
-import com.kodilla.good.patterns.challenges.Food2Door.builders.SupplierRetriever;
-import com.kodilla.good.patterns.challenges.Food2Door.FoodUserService;
+import com.kodilla.good.patterns.challenges.food2door.FoodOrder;
+import com.kodilla.good.patterns.challenges.food2door.builders.SupplierRetriever;
+import com.kodilla.good.patterns.challenges.food2door.FoodUserService;
 
 public class MainFoodShop {
 
