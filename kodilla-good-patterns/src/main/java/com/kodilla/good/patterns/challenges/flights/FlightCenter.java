@@ -22,14 +22,14 @@ public class FlightCenter {
         if (!cityFlightList.isEmpty()) {
             flightUserService.showFlightInformation(cityFlightList, "Flight information for chosen city");
         } else {
-            flightUserService.showShortInformation("We have not found this flight");
+            flightUserService.showNotFoundInformation();
         }
 
         List<Flight> travelFlightList = foundTravelInformation();
         if (travelFlightList.size() > 1) {
             flightUserService.showFlightInformation(travelFlightList, "Flight information for chosen travel");
         } else {
-            flightUserService.showShortInformation("We have not found this travel");
+            flightUserService.showNotFoundInformation();
         }
     }
 
@@ -39,8 +39,7 @@ public class FlightCenter {
     }
 
     private List<Flight> foundTravelInformation() {
-        flightUserService.showShortInformation("Chose your travel");
-        String startCity = cityList.get(flightUserService.choseCity("Chose your start city "));
+        String startCity = cityList.get(flightUserService.choseCity("Chose your travel \nChose your start city "));
         String middleCity = cityList.get(flightUserService.choseCity("Chose your middle city "));
         String finishCity = cityList.get(flightUserService.choseCity("Chose your finish city "));
 

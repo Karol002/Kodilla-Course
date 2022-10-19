@@ -21,8 +21,8 @@ public class FlightUserService {
         return scanner.nextInt() - 1;
     }
 
-    public void showShortInformation(String information) {
-        System.out.println(information);
+    public void showNotFoundInformation() {
+        System.out.println("We have not found what you looking");
     }
 
     public void showFlightInformation(List<Flight> flightList, String infoText) {
