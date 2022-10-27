@@ -10,18 +10,22 @@ public class LoggerTestSuite {
     private static Logger logger;
 
     @BeforeAll
-    public static void openSettingsFile() {
+    public static void createLogInstance() {
         logger = Logger.INSTANCE;
-        logger.log("This is log");
     }
 
     @Test
-    void getLastLogeTest() {
+    void getAnotherLastLogTest() {
         //Given
         //When
+        logger.log("This is log");
         String logData = logger.getLastLog();
-        System.out.println("Last log: " + logData);
+        logger.log("This is another log");
+        String anotherLogData = logger.getLastLog();
+
         //Then
         assertEquals("This is log", logData);
+        assertEquals("This is another log", anotherLogData);
     }
+
 }
