@@ -67,7 +67,7 @@ class DbManagerTestSuite {
         }
         rs.close();
         statement.close();
-        assertEquals(15, counter);
+        assertEquals(16, counter);
     }
 
     @Test
