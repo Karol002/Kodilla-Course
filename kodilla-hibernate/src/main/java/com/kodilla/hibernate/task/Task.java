@@ -1,12 +1,13 @@
 package com.kodilla.hibernate.task;
 
-import javax.validation.constraints.NotNull;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
 @Table(name = "TASKS")
 public final class Task {
+
     private int id;
     private String description;
     private Date created;
