@@ -9,6 +9,19 @@ import java.util.List;
 @NamedQuery(
         name = "Employee.findEmployeeByLastName",
         query = "FROM Employee WHERE lastname = :LASTNAME")
+
+@NamedNativeQuery(
+        name = "Employee.findEmployeeByFirstNameAndAnyString",
+        query = "SELECT * FROM employees WHERE firstname LIKE :ANYSTRING",
+        resultClass = Employee.class
+)
+
+@NamedNativeQuery(
+        name = "Employee.findEmployeeByLastNameAndAnyString",
+        query = "SELECT * FROM employees WHERE lastname LIKE :ANYSTRING",
+        resultClass = Employee.class
+)
+
 @Entity
 @Table(name = "EMPLOYEES")
 public class Employee {

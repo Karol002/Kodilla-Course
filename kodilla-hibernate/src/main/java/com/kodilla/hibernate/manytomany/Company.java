@@ -10,6 +10,14 @@ import java.util.List;
                 " WHERE SUBSTR(COMPANY_NAME,1, 3)= :SEARCH_NAME",
         resultClass = Company.class
 )
+
+@NamedNativeQuery(
+        name = "Company.findCompanyByAnyString",
+        query = "SELECT * FROM companies WHERE company_name LIKE :ANYSTRING",
+        resultClass = Company.class
+)
+
+
 @Entity
 @Table(name = "COMPANIES")
 public class Company {
