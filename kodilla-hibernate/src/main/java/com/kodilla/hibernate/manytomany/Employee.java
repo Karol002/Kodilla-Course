@@ -12,7 +12,7 @@ import java.util.List;
 
 @NamedNativeQuery(
         name = "Employee.findEmployeeByFirstNameAndAnyString",
-        query = "SELECT * FROM employees WHERE firstname LIKE :ANYSTRING",
+        query = "SELECT * FROM employees WHERE firstname LIKE :ANYSTRING OR lastname LIKE :ANYSTRING",
         resultClass = Employee.class
 )
 

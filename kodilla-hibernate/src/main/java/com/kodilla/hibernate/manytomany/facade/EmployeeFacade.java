@@ -22,9 +22,9 @@ public class EmployeeFacade {
     public void findEmployeeByAnyString(final String anyString) throws EmployeeException {
         LOGGER.info("Searching for a employee with the indicated string: " + anyString);
         List<Employee> employeesFirstName = employeeDao.findEmployeeByFirstNameAndAnyString("%" + anyString + "%");
-        List<Employee> employeesLastName = employeeDao.findEmployeeByLastNameAndAnyString("%" + anyString + "%");
 
-        if (employeesLastName.size() == 0 || employeesFirstName.size() == 0) {
+
+        if ( employeesFirstName.size() == 0) {
             LOGGER.error(EmployeeException.EMPLOYEE_NOT_FOUND);
             throw new EmployeeException(EmployeeException.EMPLOYEE_NOT_FOUND);
         }
