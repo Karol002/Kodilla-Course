@@ -13,7 +13,7 @@ public enum DbManager {
 
     DbManager() {
         Properties connectionProps = new Properties();
-        connectionProps.put("user", "kodilla_user");
+        connectionProps.put("user", "kodilla_user1");
         connectionProps.put("password", "kodilla_Pass123");
         try {
             conn = DriverManager.getConnection(
