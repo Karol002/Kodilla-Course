@@ -16,6 +16,7 @@ dependencies {
     implementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.8.1'
     implementation 'org.seleniumhq.selenium:selenium-firefox-driver:4.8.1'
     implementation 'io.github.bonigarcia:webdrivermanager:5.1.1'
+    implementation 'org.seleniumhq.selenium:selenium-java:4.0.0-alpha-7'
     implementation 'org.slf4j:slf4j-api:1.7.30'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
 }
